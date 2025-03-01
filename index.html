@@ -97,10 +97,18 @@
             border-top: none;
             border-radius: 0 0 4px 4px;
         }
+        .exam-only-mode {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div id="full-app" class="container">
         <h1>Creador de Exámenes</h1>
         
         <div class="tab">
@@ -128,6 +136,7 @@
                 <p>Enlace para compartir:</p>
                 <input type="text" id="share-link" readonly>
                 <button onclick="copyLink()">Copiar Enlace</button>
+                <button onclick="openExamOnly()">Abrir Examen</button>
             </div>
         </div>
         
@@ -165,6 +174,15 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Vista de solo examen (inicialmente oculta) -->
+    <div id="exam-only-view" class="exam-only-mode" style="display: none;">
+        <h2 id="exam-only-title"></h2>
+        <div id="exam-only-questions">
+            <!-- Aquí se mostrarán las preguntas en modo solo examen -->
+        </div>
+        <button onclick="submitAnswersExamOnly()">Enviar Respuestas</button>
     </div>
 
     <script>
@@ -337,7 +355,7 @@
             localStorage.setItem('exam_' + examId, JSON.stringify(exam));
             
             // Mostrar el enlace para compartir
-            const shareLink = window.location.href.split('?')[0] + '?exam=' + examId;
+            const shareLink = window.location.href.split('?')[0] + '?exam=' + examId + '&mode=only';
             document.getElementById('share-link').value = shareLink;
             document.getElementById('exam-link').style.display = 'block';
             
@@ -352,11 +370,17 @@
             alert('Enlace copiado al portapapeles');
         }
         
+        // Abrir examen en modo solo examen
+        function openExamOnly() {
+            const shareLink = document.getElementById('share-link').value;
+            window.open(shareLink, '_blank');
+        }
+        
         // Cargar examen para responder
         function loadExam() {
             const codeInput = document.getElementById('exam-code').value;
             const examCode = codeInput.includes('exam=') ? 
-                             codeInput.split('exam=')[1] :
+                             codeInput.split('exam=')[1].split('&')[0] :
                              codeInput;
                              
             // En una implementación real, aquí se cargaría el examen desde el servidor
@@ -407,8 +431,81 @@
             examId = examCode;
         }
         
-        // Enviar respuestas
+        // Cargar examen en modo solo examen
+        function loadExamOnly(examCode) {
+            const examData = localStorage.getItem('exam_' + examCode);
+            
+            if (!examData) {
+                alert('No se encontró el examen con el código proporcionado');
+                return;
+            }
+            
+            const exam = JSON.parse(examData);
+            document.getElementById('exam-only-title').textContent = exam.title;
+            
+            const questionsContainer = document.getElementById('exam-only-questions');
+            questionsContainer.innerHTML = '';
+            
+            exam.questions.forEach((question, index) => {
+                let questionHTML = `
+                    <div class="question-container">
+                        <p><strong>Pregunta ${index + 1}:</strong> ${question.text}</p>
+                `;
+                
+                if (question.type === 'text') {
+                    questionHTML += `
+                        <textarea class="answer-text" data-question="${index}" placeholder="Escribe tu respuesta aquí"></textarea>
+                    `;
+                } else {
+                    questionHTML += `<div class="options-container">`;
+                    question.options.forEach((option, optIndex) => {
+                        questionHTML += `
+                            <div class="option-item">
+                                <input type="radio" name="q${index}" value="${optIndex}" id="only_q${index}opt${optIndex}">
+                                <label for="only_q${index}opt${optIndex}">${option.text}</label>
+                            </div>
+                        `;
+                    });
+                    questionHTML += `</div>`;
+                }
+                
+                questionHTML += `</div>`;
+                questionsContainer.insertAdjacentHTML('beforeend', questionHTML);
+            });
+            
+            document.getElementById('full-app').style.display = 'none';
+            document.getElementById('exam-only-view').style.display = 'block';
+            
+            // Guardar el código del examen actual
+            examId = examCode;
+        }
+        
+        // Enviar respuestas (normal)
         function submitAnswers() {
+            submitExamResponses();
+            
+            // Resetear la vista
+            document.getElementById('exam-info').style.display = 'block';
+            document.getElementById('exam-content').style.display = 'none';
+            document.getElementById('exam-questions').innerHTML = '';
+            document.getElementById('exam-code').value = '';
+        }
+        
+        // Enviar respuestas (modo solo examen)
+        function submitAnswersExamOnly() {
+            submitExamResponses();
+            
+            // Mostrar mensaje de agradecimiento
+            document.getElementById('exam-only-view').innerHTML = `
+                <div class="question-container" style="text-align: center;">
+                    <h2>¡Gracias por enviar tus respuestas!</h2>
+                    <p>Tus respuestas han sido registradas correctamente.</p>
+                </div>
+            `;
+        }
+        
+        // Función común para enviar respuestas
+        function submitExamResponses() {
             const answers = [];
             const examData = localStorage.getItem('exam_' + examId);
             
@@ -418,15 +515,20 @@
             }
             
             const exam = JSON.parse(examData);
+            const isExamOnly = document.getElementById('full-app').style.display === 'none';
+            const questionsContainer = isExamOnly ? 
+                                      document.getElementById('exam-only-questions') :
+                                      document.getElementById('exam-questions');
             
             exam.questions.forEach((question, index) => {
                 let userAnswer = '';
                 
                 if (question.type === 'text') {
-                    const textArea = document.querySelector(`.answer-text[data-question="${index}"]`);
+                    const textArea = questionsContainer.querySelector(`.answer-text[data-question="${index}"]`);
                     userAnswer = textArea ? textArea.value : '';
                 } else {
-                    const selectedOption = document.querySelector(`input[name="q${index}"]:checked`);
+                    const radioName = isExamOnly ? `q${index}` : `q${index}`;
+                    const selectedOption = questionsContainer.querySelector(`input[name="${radioName}"]:checked`);
                     if (selectedOption) {
                         const optionIndex = parseInt(selectedOption.value);
                         userAnswer = question.options[optionIndex].text;
@@ -454,19 +556,13 @@
             localStorage.setItem('exam_' + examId, JSON.stringify(exam));
             
             alert('Respuestas enviadas correctamente');
-            
-            // Resetear la vista
-            document.getElementById('exam-info').style.display = 'block';
-            document.getElementById('exam-content').style.display = 'none';
-            document.getElementById('exam-questions').innerHTML = '';
-            document.getElementById('exam-code').value = '';
         }
         
         // Cargar resultados
         function loadResults() {
             const codeInput = document.getElementById('results-code').value;
             const examCode = codeInput.includes('exam=') ? 
-                             codeInput.split('exam=')[1] :
+                             codeInput.split('exam=')[1].split('&')[0] :
                              codeInput;
                              
             // En una implementación real, aquí se cargarían los resultados desde el servidor
@@ -542,11 +638,18 @@
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             const examParam = urlParams.get('exam');
+            const modeParam = urlParams.get('mode');
             
             if (examParam) {
-                document.getElementById('exam-code').value = examParam;
-                openTab({currentTarget: document.querySelector('.tablinks:nth-child(2)')}, 'responder');
-                loadExam();
+                if (modeParam === 'only') {
+                    // Modo solo examen
+                    loadExamOnly(examParam);
+                } else {
+                    // Modo normal
+                    document.getElementById('exam-code').value = examParam;
+                    openTab({currentTarget: document.querySelector('.tablinks:nth-child(2)')}, 'responder');
+                    loadExam();
+                }
             }
         };
     </script>
