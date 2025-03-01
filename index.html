@@ -105,9 +105,32 @@
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
+        #loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #4CAF50;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
+    <div id="loading">
+        <div class="spinner"></div>
+        <p>Cargando...</p>
+    </div>
+
     <div id="full-app" class="container">
         <h1>Creador de Exámenes</h1>
         
@@ -185,10 +208,36 @@
         <button onclick="submitAnswersExamOnly()">Enviar Respuestas</button>
     </div>
 
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.22.2/firebase-app-compat.min.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.22.2/firebase-firestore-compat.min.js"></script>
+
     <script>
+        // Configuración de Firebase - REEMPLAZA ESTO CON TU CONFIGURACIÓN
+        const firebaseConfig = {
+            apiKey: "TU_API_KEY",
+            authDomain: "tu-proyecto.firebaseapp.com",
+            projectId: "tu-proyecto",
+            storageBucket: "tu-proyecto.appspot.com",
+            messagingSenderId: "TU_SENDER_ID",
+            appId: "TU_APP_ID"
+        };
+
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        
+        // Obtener una referencia a Firestore
+        const db = firebase.firestore();
+        
         // Variables globales
         let questions = [];
         let examId = '';
+        
+        // Función para mostrar/ocultar el indicador de carga
+        function toggleLoading(show) {
+            document.getElementById('loading').style.display = show ? 'block' : 'none';
+        }
         
         // Función para abrir pestañas
         function openTab(evt, tabName) {
@@ -339,27 +388,38 @@
                 });
             });
             
-            // En una implementación real, aquí se enviarían los datos al servidor
-            // y se generaría un ID único para el examen
+            // Generar un ID único para el examen
             examId = 'EXAM-' + Math.random().toString(36).substr(2, 9).toUpperCase();
             
             const exam = {
                 id: examId,
                 title: title,
                 questions: questions,
-                responses: []
+                responses: [],
+                createdAt: new Date().toISOString()
             };
             
-            // En una implementación real, aquí guardaríamos el examen en una base de datos
-            // Para esta demo, lo guardamos en localStorage
-            localStorage.setItem('exam_' + examId, JSON.stringify(exam));
+            // Mostrar el indicador de carga
+            toggleLoading(true);
             
-            // Mostrar el enlace para compartir
-            const shareLink = window.location.href.split('?')[0] + '?exam=' + examId + '&mode=only';
-            document.getElementById('share-link').value = shareLink;
-            document.getElementById('exam-link').style.display = 'block';
-            
-            alert('Examen guardado correctamente. ID: ' + examId);
+            // Guardar el examen en Firestore
+            db.collection('exams').doc(examId).set(exam)
+                .then(() => {
+                    // Ocultar el indicador de carga
+                    toggleLoading(false);
+                    
+                    // Mostrar el enlace para compartir
+                    const shareLink = window.location.href.split('?')[0] + '?exam=' + examId + '&mode=only';
+                    document.getElementById('share-link').value = shareLink;
+                    document.getElementById('exam-link').style.display = 'block';
+                    
+                    alert('Examen guardado correctamente. ID: ' + examId);
+                })
+                .catch((error) => {
+                    toggleLoading(false);
+                    console.error("Error al guardar el examen: ", error);
+                    alert('Error al guardar el examen: ' + error.message);
+                });
         }
         
         // Copiar enlace al portapapeles
@@ -382,102 +442,137 @@
             const examCode = codeInput.includes('exam=') ? 
                              codeInput.split('exam=')[1].split('&')[0] :
                              codeInput;
-                             
-            // En una implementación real, aquí se cargaría el examen desde el servidor
-            const examData = localStorage.getItem('exam_' + examCode);
             
-            if (!examData) {
-                alert('No se encontró el examen con el código proporcionado');
+            if (!examCode) {
+                alert('Por favor, ingresa un código de examen válido');
                 return;
             }
             
-            const exam = JSON.parse(examData);
-            document.getElementById('exam-title-display').textContent = exam.title;
+            // Mostrar el indicador de carga
+            toggleLoading(true);
             
-            const questionsContainer = document.getElementById('exam-questions');
-            questionsContainer.innerHTML = '';
-            
-            exam.questions.forEach((question, index) => {
-                let questionHTML = `
-                    <div class="question-container">
-                        <p><strong>Pregunta ${index + 1}:</strong> ${question.text}</p>
-                `;
-                
-                if (question.type === 'text') {
-                    questionHTML += `
-                        <textarea class="answer-text" data-question="${index}" placeholder="Escribe tu respuesta aquí"></textarea>
-                    `;
-                } else {
-                    questionHTML += `<div class="options-container">`;
-                    question.options.forEach((option, optIndex) => {
-                        questionHTML += `
-                            <div class="option-item">
-                                <input type="radio" name="q${index}" value="${optIndex}" id="q${index}opt${optIndex}">
-                                <label for="q${index}opt${optIndex}">${option.text}</label>
-                            </div>
+            // Cargar el examen desde Firestore
+            db.collection('exams').doc(examCode).get()
+                .then((doc) => {
+                    // Ocultar el indicador de carga
+                    toggleLoading(false);
+                    
+                    if (!doc.exists) {
+                        alert('No se encontró el examen con el código proporcionado');
+                        return;
+                    }
+                    
+                    const exam = doc.data();
+                    document.getElementById('exam-title-display').textContent = exam.title;
+                    
+                    const questionsContainer = document.getElementById('exam-questions');
+                    questionsContainer.innerHTML = '';
+                    
+                    exam.questions.forEach((question, index) => {
+                        let questionHTML = `
+                            <div class="question-container">
+                                <p><strong>Pregunta ${index + 1}:</strong> ${question.text}</p>
                         `;
+                        
+                        if (question.type === 'text') {
+                            questionHTML += `
+                                <textarea class="answer-text" data-question="${index}" placeholder="Escribe tu respuesta aquí"></textarea>
+                            `;
+                        } else {
+                            questionHTML += `<div class="options-container">`;
+                            question.options.forEach((option, optIndex) => {
+                                questionHTML += `
+                                    <div class="option-item">
+                                        <input type="radio" name="q${index}" value="${optIndex}" id="q${index}opt${optIndex}">
+                                        <label for="q${index}opt${optIndex}">${option.text}</label>
+                                    </div>
+                                `;
+                            });
+                            questionHTML += `</div>`;
+                        }
+                        
+                        questionHTML += `</div>`;
+                        questionsContainer.insertAdjacentHTML('beforeend', questionHTML);
                     });
-                    questionHTML += `</div>`;
-                }
-                
-                questionHTML += `</div>`;
-                questionsContainer.insertAdjacentHTML('beforeend', questionHTML);
-            });
-            
-            document.getElementById('exam-info').style.display = 'none';
-            document.getElementById('exam-content').style.display = 'block';
-            
-            // Guardar el código del examen actual
-            examId = examCode;
+                    
+                    document.getElementById('exam-info').style.display = 'none';
+                    document.getElementById('exam-content').style.display = 'block';
+                    
+                    // Guardar el código del examen actual
+                    examId = examCode;
+                })
+                .catch((error) => {
+                    toggleLoading(false);
+                    console.error("Error al cargar el examen: ", error);
+                    alert('Error al cargar el examen: ' + error.message);
+                });
         }
         
         // Cargar examen en modo solo examen
         function loadExamOnly(examCode) {
-            const examData = localStorage.getItem('exam_' + examCode);
-            
-            if (!examData) {
-                alert('No se encontró el examen con el código proporcionado');
+            if (!examCode) {
+                alert('No se encontró el código del examen en la URL');
                 return;
             }
             
-            const exam = JSON.parse(examData);
-            document.getElementById('exam-only-title').textContent = exam.title;
+            // Mostrar el indicador de carga
+            toggleLoading(true);
             
-            const questionsContainer = document.getElementById('exam-only-questions');
-            questionsContainer.innerHTML = '';
-            
-            exam.questions.forEach((question, index) => {
-                let questionHTML = `
-                    <div class="question-container">
-                        <p><strong>Pregunta ${index + 1}:</strong> ${question.text}</p>
-                `;
-                
-                if (question.type === 'text') {
-                    questionHTML += `
-                        <textarea class="answer-text" data-question="${index}" placeholder="Escribe tu respuesta aquí"></textarea>
-                    `;
-                } else {
-                    questionHTML += `<div class="options-container">`;
-                    question.options.forEach((option, optIndex) => {
-                        questionHTML += `
-                            <div class="option-item">
-                                <input type="radio" name="q${index}" value="${optIndex}" id="only_q${index}opt${optIndex}">
-                                <label for="only_q${index}opt${optIndex}">${option.text}</label>
-                            </div>
+            // Cargar el examen desde Firestore
+            db.collection('exams').doc(examCode).get()
+                .then((doc) => {
+                    // Ocultar el indicador de carga
+                    toggleLoading(false);
+                    
+                    if (!doc.exists) {
+                        alert('No se encontró el examen con el código proporcionado');
+                        return;
+                    }
+                    
+                    const exam = doc.data();
+                    document.getElementById('exam-only-title').textContent = exam.title;
+                    
+                    const questionsContainer = document.getElementById('exam-only-questions');
+                    questionsContainer.innerHTML = '';
+                    
+                    exam.questions.forEach((question, index) => {
+                        let questionHTML = `
+                            <div class="question-container">
+                                <p><strong>Pregunta ${index + 1}:</strong> ${question.text}</p>
                         `;
+                        
+                        if (question.type === 'text') {
+                            questionHTML += `
+                                <textarea class="answer-text" data-question="${index}" placeholder="Escribe tu respuesta aquí"></textarea>
+                            `;
+                        } else {
+                            questionHTML += `<div class="options-container">`;
+                            question.options.forEach((option, optIndex) => {
+                                questionHTML += `
+                                    <div class="option-item">
+                                        <input type="radio" name="q${index}" value="${optIndex}" id="only_q${index}opt${optIndex}">
+                                        <label for="only_q${index}opt${optIndex}">${option.text}</label>
+                                    </div>
+                                `;
+                            });
+                            questionHTML += `</div>`;
+                        }
+                        
+                        questionHTML += `</div>`;
+                        questionsContainer.insertAdjacentHTML('beforeend', questionHTML);
                     });
-                    questionHTML += `</div>`;
-                }
-                
-                questionHTML += `</div>`;
-                questionsContainer.insertAdjacentHTML('beforeend', questionHTML);
-            });
-            
-            document.getElementById('full-app').style.display = 'none';
-            document.getElementById('exam-only-view').style.display = 'block';
-            
-            // Guardar el código del examen actual
-            examId = examCode;
+                    
+                    document.getElementById('full-app').style.display = 'none';
+                    document.getElementById('exam-only-view').style.display = 'block';
+                    
+                    // Guardar el código del examen actual
+                    examId = examCode;
+                })
+                .catch((error) => {
+                    toggleLoading(false);
+                    console.error("Error al cargar el examen: ", error);
+                    alert('Error al cargar el examen: ' + error.message);
+                });
         }
         
         // Enviar respuestas (normal)
@@ -506,132 +601,172 @@
         
         // Función común para enviar respuestas
         function submitExamResponses() {
-            const answers = [];
-            const examData = localStorage.getItem('exam_' + examId);
-            
-            if (!examData) {
-                alert('No se pudo encontrar la información del examen');
+            if (!examId) {
+                alert('Error: No se ha cargado correctamente el examen');
                 return;
             }
             
-            const exam = JSON.parse(examData);
-            const isExamOnly = document.getElementById('full-app').style.display === 'none';
-            const questionsContainer = isExamOnly ? 
-                                      document.getElementById('exam-only-questions') :
-                                      document.getElementById('exam-questions');
+            // Mostrar el indicador de carga
+            toggleLoading(true);
             
-            exam.questions.forEach((question, index) => {
-                let userAnswer = '';
-                
-                if (question.type === 'text') {
-                    const textArea = questionsContainer.querySelector(`.answer-text[data-question="${index}"]`);
-                    userAnswer = textArea ? textArea.value : '';
-                } else {
-                    const radioName = isExamOnly ? `q${index}` : `q${index}`;
-                    const selectedOption = questionsContainer.querySelector(`input[name="${radioName}"]:checked`);
-                    if (selectedOption) {
-                        const optionIndex = parseInt(selectedOption.value);
-                        userAnswer = question.options[optionIndex].text;
+            // Obtener el examen actual desde Firestore
+            db.collection('exams').doc(examId).get()
+                .then((doc) => {
+                    if (!doc.exists) {
+                        toggleLoading(false);
+                        alert('Error: No se pudo encontrar la información del examen');
+                        return;
                     }
-                }
-                
-                answers.push({
-                    question: question.text,
-                    userAnswer: userAnswer,
-                    correctAnswer: question.correctAnswer,
-                    isCorrect: userAnswer.toLowerCase() === question.correctAnswer.toLowerCase()
+                    
+                    const exam = doc.data();
+                    const isExamOnly = document.getElementById('full-app').style.display === 'none';
+                    const questionsContainer = isExamOnly ? 
+                                            document.getElementById('exam-only-questions') :
+                                            document.getElementById('exam-questions');
+                    
+                    const answers = [];
+                    
+                    exam.questions.forEach((question, index) => {
+                        let userAnswer = '';
+                        
+                        if (question.type === 'text') {
+                            const textArea = questionsContainer.querySelector(`.answer-text[data-question="${index}"]`);
+                            userAnswer = textArea ? textArea.value : '';
+                        } else {
+                            const radioName = `q${index}`;
+                            const selectedOption = questionsContainer.querySelector(`input[name="${radioName}"]:checked`);
+                            if (selectedOption) {
+                                const optionIndex = parseInt(selectedOption.value);
+                                userAnswer = question.options[optionIndex].text;
+                            }
+                        }
+                        
+                        answers.push({
+                            question: question.text,
+                            userAnswer: userAnswer,
+                            correctAnswer: question.correctAnswer,
+                            isCorrect: userAnswer.toLowerCase() === question.correctAnswer.toLowerCase()
+                        });
+                    });
+                    
+                    const response = {
+                        id: 'resp_' + Date.now(),
+                        timestamp: new Date().toISOString(),
+                        answers: answers
+                    };
+                    
+                    // Añadir la respuesta al array de respuestas del examen
+                    const responses = exam.responses || [];
+                    responses.push(response);
+                    
+                    // Actualizar el documento en Firestore
+                    return db.collection('exams').doc(examId).update({
+                        responses: responses
+                    });
+                })
+                .then(() => {
+                    // Ocultar el indicador de carga
+                    toggleLoading(false);
+                    alert('Respuestas enviadas correctamente');
+                })
+                .catch((error) => {
+                    toggleLoading(false);
+                    console.error("Error al enviar respuestas: ", error);
+                    alert('Error al enviar respuestas: ' + error.message);
                 });
-            });
-            
-            const response = {
-                id: 'resp_' + Date.now(),
-                timestamp: new Date().toISOString(),
-                answers: answers
-            };
-            
-            // En una implementación real, aquí se enviarían las respuestas al servidor
-            
-            // Para esta demo, lo guardamos en localStorage
-            exam.responses.push(response);
-            localStorage.setItem('exam_' + examId, JSON.stringify(exam));
-            
-            alert('Respuestas enviadas correctamente');
         }
         
         // Cargar resultados
         function loadResults() {
             const codeInput = document.getElementById('results-code').value;
             const examCode = codeInput.includes('exam=') ? 
-                             codeInput.split('exam=')[1].split('&')[0] :
-                             codeInput;
-                             
-            // En una implementación real, aquí se cargarían los resultados desde el servidor
-            const examData = localStorage.getItem('exam_' + examCode);
+                            codeInput.split('exam=')[1].split('&')[0] :
+                            codeInput;
             
-            if (!examData) {
-                alert('No se encontró el examen con el código proporcionado');
+            if (!examCode) {
+                alert('Por favor, ingresa un código de examen válido');
                 return;
             }
             
-            const exam = JSON.parse(examData);
-            const responsesList = document.getElementById('responses-list');
-            responsesList.innerHTML = '';
+            // Mostrar el indicador de carga
+            toggleLoading(true);
             
-            if (exam.responses.length === 0) {
-                responsesList.innerHTML = '<p>Aún no hay respuestas para este examen</p>';
-            } else {
-                exam.responses.forEach((response, respIndex) => {
-                    let correctCount = 0;
-                    response.answers.forEach(answer => {
-                        if (answer.isCorrect) correctCount++;
-                    });
+            // Cargar el examen desde Firestore
+            db.collection('exams').doc(examCode).get()
+                .then((doc) => {
+                    // Ocultar el indicador de carga
+                    toggleLoading(false);
                     
-                    const percentage = Math.round((correctCount / response.answers.length) * 100);
+                    if (!doc.exists) {
+                        alert('No se encontró el examen con el código proporcionado');
+                        return;
+                    }
                     
-                    let responseHTML = `
-                        <div class="response-item">
-                            <h4>Respuesta #${respIndex + 1} - ${new Date(response.timestamp).toLocaleString()}</h4>
-                            <p>Puntuación: ${correctCount}/${response.answers.length} (${percentage}%)</p>
-                            <details>
-                                <summary>Ver detalles</summary>
-                                <div class="response-details">
-                    `;
+                    const exam = doc.data();
+                    const responsesList = document.getElementById('responses-list');
+                    responsesList.innerHTML = '';
                     
-                    response.answers.forEach((answer, ansIndex) => {
-                        const status = answer.isCorrect ? 
-                                      'correcto' : 
-                                      'incorrecto';
-                        const color = answer.isCorrect ? 
-                                     'green' : 
-                                     'red';
-                                     
-                        responseHTML += `
-                            <div style="margin-top: 10px; border-left: 3px solid ${color}; padding-left: 10px;">
-                                <p><strong>Pregunta ${ansIndex + 1}:</strong> ${answer.question}</p>
-                                <p><strong>Respuesta:</strong> ${answer.userAnswer}</p>
-                        `;
-                        
-                        if (answer.correctAnswer) {
-                            responseHTML += `<p><strong>Respuesta correcta:</strong> ${answer.correctAnswer}</p>`;
-                        }
-                        
-                        responseHTML += `
-                                <p><strong>Estado:</strong> <span style="color: ${color}">${status}</span></p>
-                            </div>
-                        `;
-                    });
-                    
-                    responseHTML += `
+                    if (!exam.responses || exam.responses.length === 0) {
+                        responsesList.innerHTML = '<p>Aún no hay respuestas para este examen</p>';
+                    } else {
+                        exam.responses.forEach((response, respIndex) => {
+                            let correctCount = 0;
+                            response.answers.forEach(answer => {
+                                if (answer.isCorrect) correctCount++;
+                            });
+                            
+                            const percentage = Math.round((correctCount / response.answers.length) * 100);
+                            
+                            let responseHTML = `
+                                <div class="response-item">
+                                    <h4>Respuesta #${respIndex + 1} - ${new Date(response.timestamp).toLocaleString()}</h4>
+                                    <p>Puntuación: ${correctCount}/${response.answers.length} (${percentage}%)</p>
+                                    <details>
+                                        <summary>Ver detalles</summary>
+                                        <div class="response-details">
+                            `;
+                            
+                            response.answers.forEach((answer, ansIndex) => {
+                                const status = answer.isCorrect ? 
+                                            'correcto' : 
+                                            'incorrecto';
+                                const color = answer.isCorrect ? 
+                                            'green' : 
+                                            'red';
+                                            
+                                responseHTML += `
+                                    <div style="margin-top: 10px; border-left: 3px solid ${color}; padding-left: 10px;">
+                                        <p><strong>Pregunta ${ansIndex + 1}:</strong> ${answer.question}</p>
+                                        <p><strong>Respuesta:</strong> ${answer.userAnswer}</p>
+                                `;
+                                
+                                if (answer.correctAnswer) {
+                                    responseHTML += `<p><strong>Respuesta correcta:</strong> ${answer.correctAnswer}</p>`;
+                                }
+                                
+                                responseHTML += `
+                                        <p><strong>Estado:</strong> <span style="color: ${color}">${status}</span></p>
+                                    </div>
+                                `;
+                            });
+                            
+                            responseHTML += `
+                                        </div>
+                                    </details>
                                 </div>
-                            </details>
-                        </div>
-                    `;
+                            `;
+                            
+                            responsesList.insertAdjacentHTML('beforeend', responseHTML);
+                        });
+                    }
                     
-                    responsesList.insertAdjacentHTML('beforeend', responseHTML);
+                    document.getElementById('results-container').style.display = 'block';
+                })
+                .catch((error) => {
+                    toggleLoading(false);
+                    console.error("Error al cargar los resultados: ", error);
+                    alert('Error al cargar los resultados: ' + error.message);
                 });
-            }
-            
-            document.getElementById('results-container').style.display = 'block';
         }
         
         // Verificar si hay un código de examen en la URL
@@ -648,10 +783,3 @@
                     // Modo normal
                     document.getElementById('exam-code').value = examParam;
                     openTab({currentTarget: document.querySelector('.tablinks:nth-child(2)')}, 'responder');
-                    loadExam();
-                }
-            }
-        };
-    </script>
-</body>
-</html>
