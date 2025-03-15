@@ -3,1001 +3,817 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>¡Aprende Español e Inglés!</title>
+    <title>MediaStream - Tu plataforma de contenido</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
-        
-        :root {
-            --primary: #FF5F6D;
-            --primary-gradient: linear-gradient(to right, #FF5F6D, #FFC371);
-            --secondary: #6A11CB;
-            --secondary-gradient: linear-gradient(to right, #6A11CB, #2575FC);
-            --success: #00C9A7;
-            --danger: #FF4B91;
-            --warning: #FFD166;
-            --dark: #2D3748;
-            --light: #F7FAFC;
-        }
-        
+        /* Estilos generales */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
         }
         
         body {
-            font-family: 'Nunito', sans-serif;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3Cpath d='M6 5V0H5v5H0v1h5v94h1V6h94V5H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            min-height: 100vh;
+            background-color: #0f0f0f;
+            color: #f0f0f0;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* Navegación */
+        header {
+            background-color: #1a1a1a;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav {
             display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e63946;
+            cursor: pointer;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+        
+        .nav-links a {
+            color: #f0f0f0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #e63946;
+        }
+        
+        .search-login {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .search-bar {
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: none;
+            background-color: #333;
+            color: #fff;
+        }
+        
+        .login-btn {
+            padding: 8px 20px;
+            background-color: #e63946;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .login-btn:hover {
+            background-color: #c1121f;
+        }
+        
+        /* Hero section */
+        .hero {
+            height: 500px;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/api/placeholder/1400/500');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 20px;
-        }
-        
-        .app-container {
-            width: 90%;
-            max-width: 800px;
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-            position: relative;
-        }
-        
-        .header {
-            background-image: var(--primary-gradient);
-            padding: 25px;
             text-align: center;
-            color: white;
-            position: relative;
+            padding: 0 20px;
         }
         
-        .header h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
-        
-        .header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-        
-        .content {
-            padding: 30px;
-            position: relative;
-        }
-        
-        .card {
-            background: var(--light);
-            border-radius: 15px;
-            padding: 25px;
+        .hero h1 {
+            font-size: 3rem;
             margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
         
-        .card:hover {
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            max-width: 700px;
+        }
+        
+        .cta-btn {
+            padding: 12px 30px;
+            background-color: #e63946;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .cta-btn:hover {
+            background-color: #c1121f;
+        }
+        
+        /* Contenido principal */
+        .content-section {
+            padding: 60px 0;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .video-card {
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        
+        .video-card:hover {
             transform: translateY(-5px);
         }
         
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 5px;
-            height: 100%;
-            background-image: var(--secondary-gradient);
-        }
-        
-        .spanish-phrase {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--dark);
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .input-group {
-            margin: 20px 0;
-        }
-        
-        .input-group label {
-            display: block;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--dark);
-            margin-bottom: 8px;
-        }
-        
-        .input-container {
-            position: relative;
-            display: flex;
-        }
-        
-        .english-input {
+        .thumbnail {
             width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .video-info {
             padding: 15px;
-            border: 2px solid #E2E8F0;
-            border-radius: 10px 0 0 10px;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            background-color: white;
         }
         
-        .english-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(255,95,109,0.2);
-        }
-        
-        .mic-button {
-            background-color: var(--primary);
-            border: none;
-            border-radius: 0 10px 10px 0;
-            width: 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .mic-button:hover {
-            background-color: #FF4B5F;
-        }
-        
-        .mic-icon {
-            width: 24px;
-            height: 24px;
-            fill: white;
-        }
-        
-        .button-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .btn {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 10px;
+        .video-info h3 {
+            margin-bottom: 8px;
             font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
         }
         
-        .btn-check {
-            background-image: var(--primary-gradient);
-            color: white;
-            flex: 1;
-        }
-        
-        .btn-check:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255,95,109,0.3);
-        }
-        
-        .btn-next {
-            background-image: var(--secondary-gradient);
-            color: white;
-            flex: 1;
-        }
-        
-        .btn-next:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(106,17,203,0.3);
-        }
-        
-        .feedback {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .correct {
-            background-color: rgba(0,201,167,0.1);
-            color: var(--success);
-            border-left: 4px solid var(--success);
-        }
-        
-        .incorrect {
-            background-color: rgba(255,75,145,0.1);
-            color: var(--danger);
-            border-left: 4px solid var(--danger);
-        }
-        
-        .encouragement {
-            margin-top: 10px;
-            font-style: italic;
-            color: #4A5568;
-            font-weight: normal;
-        }
-        
-        .progress-container {
-            position: relative;
-            height: 8px;
-            background-color: #E2E8F0;
-            border-radius: 4px;
-            margin: 20px 0;
-            overflow: hidden;
-        }
-        
-        .progress-bar {
-            height: 100%;
-            background-image: var(--primary-gradient);
-            border-radius: 4px;
-            transition: width 0.3s ease;
-        }
-        
-        .progress-text {
+        .video-meta {
             display: flex;
             justify-content: space-between;
+            color: #aaa;
             font-size: 0.9rem;
-            color: #4A5568;
-            margin-bottom: 5px;
         }
         
-        .emoji {
-            font-size: 1.5rem;
-            margin-right: 10px;
-            display: inline-block;
-        }
-        
-        .confetti {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #FFC371;
-            top: -10px;
-            z-index: 10;
-            animation: fall 3s ease-out;
-            opacity: 0;
-        }
-        
-        @keyframes fall {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(200px) rotate(360deg);
-                opacity: 0;
-            }
-        }
-        
-        .streak-badge {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-image: var(--secondary-gradient);
-            color: white;
-            border-radius: 15px;
-            padding: 5px 15px;
-            font-size: 0.9rem;
-            font-weight: 600;
+        /* Categorías */
+        .categories {
             display: flex;
-            align-items: center;
-            gap: 5px;
-            box-shadow: 0 5px 15px rgba(106,17,203,0.3);
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
         }
         
-        .completion-animation {
+        .category {
+            padding: 8px 20px;
+            background-color: #333;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .category:hover, .category.active {
+            background-color: #e63946;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #1a1a1a;
+            padding: 40px 0;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #e63946;
+        }
+        
+        .copyright {
+            margin-top: 30px;
+            text-align: center;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* Modal de verificación de edad */
+        .age-verify {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.7);
+            background-color: rgba(0, 0, 0, 0.9);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
         }
         
-        .completion-content {
-            background-color: white;
-            border-radius: 20px;
-            padding: 40px;
-            text-align: center;
+        .age-verify-content {
+            background-color: #1a1a1a;
+            padding: 30px;
+            border-radius: 8px;
             max-width: 500px;
-            width: 90%;
-            transform: scale(0.9);
-            transition: transform 0.3s ease;
-        }
-        
-        .completion-animation.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-        
-        .completion-animation.active .completion-content {
-            transform: scale(1);
-        }
-        
-        .completion-title {
-            font-size: 2rem;
-            color: var(--primary);
-            margin-bottom: 20px;
-        }
-        
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            margin: 30px 0;
-        }
-        
-        .stat-item {
             text-align: center;
         }
         
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--secondary);
-        }
-        
-        .stat-label {
-            font-size: 0.9rem;
-            color: #4A5568;
-        }
-        
-        .mode-switch {
-            display: flex;
-            justify-content: center;
+        .age-verify-content h2 {
             margin-bottom: 20px;
         }
         
-        .mode-switch button {
-            padding: 8px 15px;
+        .age-verify-content p {
+            margin-bottom: 20px;
+        }
+        
+        .age-btn {
+            padding: 10px 20px;
+            margin: 0 10px;
             border: none;
-            background-color: #E2E8F0;
-            color: #4A5568;
-            font-weight: 600;
+            border-radius: 4px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            font-size: 1rem;
         }
         
-        .mode-switch button:first-child {
-            border-radius: 5px 0 0 5px;
-        }
-        
-        .mode-switch button:last-child {
-            border-radius: 0 5px 5px 0;
-        }
-        
-        .mode-switch button.active {
-            background-image: var(--primary-gradient);
+        .yes-btn {
+            background-color: #e63946;
             color: white;
         }
         
-        .listening-indicator {
-            display: none;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 10px;
-            color: var(--primary);
-            font-weight: 600;
-            animation: pulse 1.5s infinite;
+        .no-btn {
+            background-color: #333;
+            color: white;
         }
-        
-        @keyframes pulse {
-            0% {
-                opacity: 0.6;
-            }
-            50% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0.6;
-            }
-        }
-        
-        .voice-waves {
-            display: flex;
-            align-items: center;
-            height: 20px;
-        }
-        
-        .wave {
-            width: 3px;
+
+        /* Login Modal */
+        .login-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
             height: 100%;
-            margin: 0 2px;
-            border-radius: 2px;
-            background-color: var(--primary);
-            animation: wave 1s infinite ease-in-out;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
         }
         
-        .wave:nth-child(2) {
-            animation-delay: 0.2s;
+        .login-form {
+            background-color: #1a1a1a;
+            padding: 30px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
         }
         
-        .wave:nth-child(3) {
-            animation-delay: 0.4s;
+        .login-form h2 {
+            margin-bottom: 20px;
+            text-align: center;
         }
         
-        .wave:nth-child(4) {
-            animation-delay: 0.6s;
+        .form-group {
+            margin-bottom: 15px;
         }
         
-        @keyframes wave {
-            0%, 100% {
-                height: 30%;
-            }
-            50% {
-                height: 100%;
-            }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
         }
         
-        @media (max-width: 600px) {
-            .header h1 {
-                font-size: 1.8rem;
-            }
-            
-            .spanish-phrase {
-                font-size: 1.5rem;
-            }
-            
-            .content {
-                padding: 20px;
-            }
-            
-            .card {
-                padding: 15px;
-            }
-            
-            .btn {
-                padding: 10px 15px;
-            }
-            
-            .button-group {
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #333;
+            background-color: #333;
+            color: #fff;
+        }
+        
+        .login-submit {
+            width: 100%;
+            padding: 10px;
+            background-color: #e63946;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        
+        .login-options {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .login-options a {
+            color: #aaa;
+            text-decoration: none;
+        }
+        
+        .login-options a:hover {
+            color: #e63946;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            color: #fff;
+            cursor: pointer;
+        }
+        
+        /* Video Modal */
+        .video-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 300;
+        }
+        
+        .video-container {
+            width: 80%;
+            max-width: 900px;
+        }
+        
+        .video-player {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background-color: #000;
+        }
+        
+        .video-details {
+            background-color: #1a1a1a;
+            padding: 20px;
+            border-radius: 0 0 8px 8px;
+        }
+        
+        .video-details h2 {
+            margin-bottom: 10px;
+        }
+        
+        .video-stats {
+            display: flex;
+            gap: 20px;
+            color: #aaa;
+            margin-bottom: 15px;
+        }
+        
+        .video-description {
+            color: #ddd;
+            line-height: 1.5;
+        }
+        
+        /* Menú hamburgesa para móvil */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+        
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: #fff;
+            margin: 2px 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background-color: #1a1a1a;
                 flex-direction: column;
+                padding: 20px 0;
+                text-align: center;
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .hamburger {
+                display: flex;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .video-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .video-container {
+                width: 95%;
             }
         }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <div class="header">
-            <h1>¡Aprende Español e Inglés!</h1>
-            <p>Practica y mejora tu vocabulario en ambos idiomas</p>
-            <div class="streak-badge">
-                <span id="streak-count">0</span> 🔥 Racha
+    <!-- Modal de verificación de edad -->
+    <div class="age-verify" id="ageVerify">
+        <div class="age-verify-content">
+            <h2>Verificación de edad</h2>
+            <p>Este sitio contiene material solo para adultos. Debes tener al menos 18 años para acceder.</p>
+            <p>¿Confirmas que tienes al menos 18 años y aceptas ver contenido para adultos?</p>
+            <button class="age-btn yes-btn" onclick="verifyAge(true)">Sí, soy mayor de 18</button>
+            <button class="age-btn no-btn" onclick="verifyAge(false)">No, salir del sitio</button>
+        </div>
+    </div>
+
+    <!-- Modal de login -->
+    <div class="login-modal" id="loginModal">
+        <div class="close-btn" onclick="toggleLoginModal(false)">&times;</div>
+        <div class="login-form">
+            <h2>Iniciar sesión</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Usuario o Email</label>
+                    <input type="text" id="username" placeholder="Introduce tu usuario o email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" placeholder="Introduce tu contraseña" required>
+                </div>
+                <button type="submit" class="login-submit">Entrar</button>
+                <div class="login-options">
+                    <a href="#">¿Olvidaste tu contraseña?</a>
+                    <a href="#">Registrarse</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de video -->
+    <div class="video-modal" id="videoModal">
+        <div class="close-btn" onclick="closeVideoModal()">&times;</div>
+        <div class="video-container">
+            <div class="video-player" id="videoPlayer">
+                <img src="/api/placeholder/900/506" alt="Video Player" style="width:100%; height:100%;">
+            </div>
+            <div class="video-details">
+                <h2 id="videoTitle">Título del video</h2>
+                <div class="video-stats">
+                    <span id="videoViews">0 vistas</span>
+                    <span id="videoDate">Hace 0 días</span>
+                </div>
+                <p class="video-description" id="videoDescription">
+                    Descripción del video. Este es un texto de ejemplo que se reemplazará con la descripción real del video cuando se seleccione un video para reproducir.
+                </p>
             </div>
         </div>
-        
-        <div class="content">
-            <div class="mode-switch">
-                <button id="text-mode-btn" class="active">Modo Texto</button>
-                <button id="voice-mode-btn">Modo Voz</button>
-            </div>
-            
-            <div class="progress-text">
-                <span>Progreso</span>
-                <span id="progress-counter">0/20</span>
-            </div>
-            <div class="progress-container">
-                <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
-            </div>
-            
-            <div class="card">
-                <div class="spanish-phrase">
-                    <span class="emoji" id="phrase-emoji"></span>
-                    <span id="spanish-phrase"></span>
+    </div>
+
+    <!-- Cabecera -->
+    <header>
+        <div class="container">
+           <nav>
+                <div class="logo">MediaStream</div>
+                <div class="hamburger" onclick="toggleMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </div>
-                
-                <div class="input-group">
-                    <label id="input-label" for="english-input">Traduce al inglés:</label>
-                    <div class="input-container">
-                        <input type="text" id="english-input" class="english-input" placeholder="Escribe la traducción aquí">
-                        <button id="mic-button" class="mic-button">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                    <div id="listening-indicator" class="listening-indicator">
-                        <span>Escuchando...</span>
-                        <div class="voice-waves">
-                            <div class="wave"></div>
-                            <div class="wave"></div>
-                            <div class="wave"></div>
-                            <div class="wave"></div>
+                <div class="nav-links" id="navLinks">
+                    <a href="#inicio">Inicio</a>
+                    <a href="#populares">Populares</a>
+                    <a href="#categorias">Categorías</a>
+                    <a href="#premium">Premium</a>
+                </div>
+                <div class="search-login">
+                    <input type="text" class="search-bar" placeholder="Buscar">
+                    <button class="login-btn" onclick="toggleLoginModal(true)">Login</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Descubre contenido ilimitado</h1>
+        <p>Miles de videos en alta definición esperan por ti. Disfruta cuando quieras, donde quieras.</p>
+        <button class="cta-btn">Comenzar ahora</button>
+    </section>
+
+    <!-- Contenido Popular -->
+    <section class="content-section" id="populares">
+        <div class="container">
+            <h2 class="section-title">Contenido Popular</h2>
+            <div class="video-grid">
+                <!-- Video 1 -->
+                <div class="video-card" onclick="openVideoModal('Video Popular 1', '1.2M vistas', 'Hace 2 días', 'Esta es la descripción del primer video popular con todos los detalles que necesitas saber.')">
+                    <img src="/api/placeholder/300/180" alt="Thumbnail" class="thumbnail">
+                    <div class="video-info">
+                        <h3>Video Popular 1</h3>
+                        <div class="video-meta">
+                            <span>1.2M vistas</span>
+                            <span>Hace 2 días</span>
                         </div>
                     </div>
                 </div>
                 
-                <div class="button-group">
-                    <button id="check-btn" class="btn btn-check">
-                        Comprobar
-                    </button>
-                    <button id="next-btn" class="btn btn-next" style="display: none;">
-                        Siguiente frase
-                    </button>
+                <!-- Video 2 -->
+                <div class="video-card" onclick="openVideoModal('Video Popular 2', '890K vistas', 'Hace 5 días', 'Descripción detallada del segundo video popular que está causando sensación entre los usuarios.')">
+                    <img src="/api/placeholder/300/180" alt="Thumbnail" class="thumbnail">
+                    <div class="video-info">
+                        <h3>Video Popular 2</h3>
+                        <div class="video-meta">
+                            <span>890K vistas</span>
+                            <span>Hace 5 días</span>
+                        </div>
+                    </div>
                 </div>
                 
-                <div id="feedback" class="feedback" style="display: none;"></div>
+                <!-- Video 3 -->
+                <div class="video-card" onclick="openVideoModal('Video Popular 3', '756K vistas', 'Hace 1 semana', 'El tercer video más popular de nuestra plataforma con contenido exclusivo para nuestros usuarios.')">
+                    <img src="/api/placeholder/300/180" alt="Thumbnail" class="thumbnail">
+                    <div class="video-info">
+                        <h3>Video Popular 3</h3>
+                        <div class="video-meta">
+                            <span>756K vistas</span>
+                            <span>Hace 1 semana</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Video 4 -->
+                <div class="video-card" onclick="openVideoModal('Video Popular 4', '1.5M vistas', 'Hace 3 días', 'Un video que está batiendo récords de visualizaciones en los últimos días.')">
+                    <img src="/api/placeholder/300/180" alt="Thumbnail" class="thumbnail">
+                    <div class="video-info">
+                        <h3>Video Popular 4</h3>
+                        <div class="video-meta">
+                            <span>1.5M vistas</span>
+                            <span>Hace 3 días</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    
-    <div id="completion-animation" class="completion-animation">
-        <div class="completion-content">
-            <h2 class="completion-title">¡Felicidades! 🎉</h2>
-            <p>Has completado todas las frases</p>
-            
-            <div class="stats">
-                <div class="stat-item">
-                    <div class="stat-value" id="correct-count">0</div>
-                    <div class="stat-label">Correctas</div>
+    </section>
+
+    <!-- Categorías -->
+    <section class="content-section" id="categorias">
+        <div class="container">
+            <h2 class="section-title">Categorías</h2>
+            <div class="categories">
+                <div class="category active">Todo</div>
+                <div class="category">Acción</div>
+                <div class="category">Comedia</div>
+                <div class="category">Drama</div>
+                <div class="category">Documental</div>
+                <div class="category">Música</div>
+            </div>
+            <div class="video-grid">
+                <!-- Video 1 -->
+                <div class="video-card" onclick="openVideoModal('Video Categoría 1', '500K vistas', 'Hace 1 semana', 'Este video pertenece a una de nuestras categorías más populares.')">
+                    <img src="/api/placeholder/300/180" alt="Thumbnail" class="thumbnail">
+                    <div class="video-info">
+                        <h3>Video Categoría 1</h3>
+                        <div class="video-meta">
+                            <span>500K vistas</span>
+                            <span>Hace 1 semana</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-value" id="accuracy-percentage">0%</div>
-                    <div class="stat-label">Precisión</div>
+                
+                <!-- Video 2 -->
+                <div class="video-card" onclick="openVideoModal('Video Categoría 2', '320K vistas', 'Hace 2 semanas', 'Un video que está destacando dentro de su categoría por su gran calidad.')">
+                    <img src="/api/placeholder/300/180" alt="Thumbnail" class="thumbnail">
+                    <div class="video-info">
+                        <h3>Video Categoría 2</h3>
+                        <div class="video-meta">
+                            <span>320K vistas</span>
+                            <span>Hace 2 semanas</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-value" id="final-streak">0</div>
-                    <div class="stat-label">Racha</div>
+                
+                <!-- Video 3 -->
+                <div class="video-card" onclick="openVideoModal('Video Categoría 3', '420K vistas', 'Hace 10 días', 'Contenido excepcional dentro de esta categoría que no te puedes perder.')">
+                    <img src="/api/placeholder/300/180" alt="Thumbnail" class="thumbnail">
+                    <div class="video-info">
+                        <h3>Video Categoría 3</h3>
+                        <div class="video-meta">
+                            <span>420K vistas</span>
+                            <span>Hace 10 días</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Video 4 -->
+                <div class="video-card" onclick="openVideoModal('Video Categoría 4', '380K vistas', 'Hace 2 semanas', 'Este video representa lo mejor de su categoría con un contenido único.')">
+                    <img src="/api/placeholder/300/180" alt="Thumbnail" class="thumbnail">
+                    <div class="video-info">
+                        <h3>Video Categoría 4</h3>
+                        <div class="video-meta">
+                            <span>380K vistas</span>
+                            <span>Hace 2 semanas</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Premium -->
+    <section class="content-section" id="premium">
+        <div class="container">
+            <h2 class="section-title">Contenido Premium</h2>
+            <div class="video-grid">
+                <!-- Video Premium 1 -->
+                <div class="video-card" onclick="openVideoModal('Video Premium 1', '250K vistas', 'Hace 3 días', 'Contenido exclusivo disponible solo para usuarios premium con la mejor calidad.')">
+                    <img src="/api/placeholder/300/180" alt="Thumbnail" class="thumbnail">
+                    <div class="video-info">
+                        <h3>Video Premium 1</h3>
+                        <div class="video-meta">
+                            <span>250K vistas</span>
+                            <span>Hace 3 días</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Video Premium 2 -->
+                <div class="video-card" onclick="openVideoModal('Video Premium 2', '180K vistas', 'Hace 1 semana', 'Otro de nuestros contenidos exclusivos para suscriptores premium.')">
+                    <img src="/api/placeholder/300/180" alt="Thumbnail" class="thumbnail">
+                    <div class="video-info">
+                        <h3>Video Premium 2</h3>
+                        <div class="video-meta">
+                            <span>180K vistas</span>
+                            <span>Hace 1 semana</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>MediaStream</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Acerca de nosotros</a></li>
+                        <li><a href="#">Empleo</a></li>
+                        <li><a href="#">Contacto</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Ayuda</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Centro de ayuda</a></li>
+                        <li><a href="#">Soporte técnico</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Términos de servicio</a></li>
+                        <li><a href="#">Política de privacidad</a></li>
+                        <li><a href="#">Cookies</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Suscripciones</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Planes</a></li>
+                        <li><a href="#">Premium</a></li>
+                        <li><a href="#">Tarjetas regalo</a></li>
+                    </ul>
                 </div>
             </div>
             
-            <button id="restart-btn" class="btn btn-check">
-                Volver a empezar
-            </button>
+            <div class="copyright">
+                <p>&copy; 2025 MediaStream. Todos los derechos reservados.</p>
+            </div>
         </div>
-    </div>
-    
+    </footer>
+
+    <!-- Scripts -->
     <script>
-        // Base de datos de frases
-        const phrases = [
-            { spanish: "¡Buenos días! 🌞", english: "Good morning!", emoji: "🌞" },
-            { spanish: "¡Buenas tardes! ☀️", english: "Good afternoon!", emoji: "☀️" },
-            { spanish: "¡Buenas noches! 🌙", english: "Good night!", emoji: "🌙" },
-            { spanish: "¿Cómo estás?", english: "How are you?", emoji: "🙂" },
-            { spanish: "¡Hola! ¿Qué tal?", english: "Hi! How's it going?", emoji: "👋" },
-            { spanish: "¡Mucho gusto!", english: "Nice to meet you!", emoji: "🤝" },
-            { spanish: "¿Cómo te ha ido hoy?", english: "How has your day been?", emoji: "📅" },
-            { spanish: "¡Qué gusto verte!", english: "It's great to see you!", emoji: "😄" },
-            { spanish: "¡Nos vemos luego!", english: "See you later!", emoji: "👋" },
-            { spanish: "¡Hasta mañana!", english: "See you tomorrow!", emoji: "🔜" },
-            { spanish: "¿Dónde dejé mi teléfono? 📱", english: "Where did I leave my phone?", emoji: "📱" },
-            { spanish: "Pásame las llaves, por favor. 🔑", english: "Pass me the keys, please.", emoji: "🔑" },
-            { spanish: "Se me cayó el vaso. 🥤", english: "I dropped the glass.", emoji: "🥤" },
-            { spanish: "No encuentro mi mochila. 🎒", english: "I can't find my backpack.", emoji: "🎒" },
-            { spanish: "La televisión no enciende. 📺", english: "The TV won't turn on.", emoji: "📺" },
-            { spanish: "¿Has visto mis audífonos? 🎧", english: "Have you seen my headphones?", emoji: "🎧" },
-            { spanish: "Mi computadora está fallando. 💻", english: "My computer is not working.", emoji: "💻" },
-            { spanish: "Necesito cargar mi celular. 🔋", english: "I need to charge my phone.", emoji: "🔋" },
-            { spanish: "El control remoto no tiene pilas. 🔋", english: "The remote control has no batteries.", emoji: "🎮" },
-            { spanish: "Cierra la puerta, por favor. 🚪", english: "Close the door, please.", emoji: "🚪" }
-        ];
-
-        // Mensajes de ánimo para cuando hay errores
-        const encouragements = [
-            "¡No te preocupes! Inténtalo de nuevo. 💪",
-            "¡Sigue intentándolo! Vas muy bien. 🌟",
-            "Casi lo tienes, ¡no te rindas! 👍",
-            "Aprender un idioma lleva tiempo, ¡tú puedes! 🧠",
-            "El error es parte del aprendizaje. ¡Continúa! 📚",
-            "¡Cada intento te acerca más al éxito! 🚀",
-            "La práctica hace al maestro. ¡Sigue adelante! 🏆",
-            "¡Vas por buen camino! Inténtalo una vez más. 🌈",
-            "Recuerda: el error es el mejor maestro. ¡Ánimo! 🌱",
-            "¡No pasa nada! Intentémoslo de nuevo. 💫"
-        ];
-
-        // Variables globales
-        let currentPhrase;
-        let currentIndex = 0;
-        let correctAnswers = 0;
-        let currentStreak = 0;
-        let bestStreak = 0;
-        let totalAttempted = 0;
-        let isVoiceMode = false;
-        let isListening = false;
-        let recognition;
-
-        // Elementos del DOM
-        const spanishPhraseElement = document.getElementById('spanish-phrase');
-        const phraseEmojiElement = document.getElementById('phrase-emoji');
-        const englishInput = document.getElementById('english-input');
-        const checkButton = document.getElementById('check-btn');
-        const nextButton = document.getElementById('next-btn');
-        const feedbackElement = document.getElementById('feedback');
-        const progressBar = document.getElementById('progress-bar');
-        const progressCounter = document.getElementById('progress-counter');
-        const streakCount = document.getElementById('streak-count');
-        const completionAnimation = document.getElementById('completion-animation');
-        const correctCountElement = document.getElementById('correct-count');
-        const accuracyPercentageElement = document.getElementById('accuracy-percentage');
-        const finalStreakElement = document.getElementById('final-streak');
-        const restartButton = document.getElementById('restart-btn');
-        const micButton = document.getElementById('mic-button');
-        const listeningIndicator = document.getElementById('listening-indicator');
-        const textModeBtn = document.getElementById('text-mode-btn');
-        const voiceModeBtn = document.getElementById('voice-mode-btn');
-        const inputLabel = document.getElementById('input-label');
-
-        // Inicializar reconocimiento de voz si está disponible
-        function initSpeechRecognition() {
-            // Verificar si el navegador soporta reconocimiento de voz
-            if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
-                recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-                recognition.continuous = false;
-                recognition.interimResults = false;
-                recognition.lang = 'en-US'; // Para detectar inglés
-                
-                recognition.onstart = function() {
-                    isListening = true;
-                    listeningIndicator.style.display = 'flex';
-                    micButton.style.backgroundColor = '#FF4B5F';
-                };
-                
-                recognition.onend = function() {
-                    isListening = false;
-                    listeningIndicator.style.display = 'none';
-                    micButton.style.backgroundColor = '';
-                };
-                
-                recognition.onresult = function(event) {
-                    const transcript = event.results[0][0].transcript.trim().toLowerCase();
-                    englishInput.value = transcript;
-                    
-                    // Automáticamente verificar la respuesta después de obtener el resultado
-                    setTimeout(checkAnswer, 500);
-                };
-                
-                recognition.onerror = function(event) {
-                    console.error('Error en reconocimiento de voz:', event.error);
-                    isListening = false;
-                    listeningIndicator.style.display = 'none';
-                    micButton.style.backgroundColor = '';
-                    
-                    feedbackElement.style.display = 'block';
-                    feedbackElement.className = 'feedback incorrect';
-                    feedbackElement.innerHTML = "No se pudo reconocer tu voz. Intenta de nuevo o usa el modo texto.";
-                };
-                
-                return true;
+        // Verificación de edad
+        function verifyAge(isAdult) {
+            if (isAdult) {
+                document.getElementById('ageVerify').style.display = 'none';
+                // Guardar en localStorage para no volver a preguntar
+                localStorage.setItem('ageVerified', 'true');
             } else {
-                alert('Lo sentimos, tu navegador no soporta reconocimiento de voz. Puedes usar el modo texto.');
-                voiceModeBtn.disabled = true;
-                return false;return false;
+                window.location.href = 'https://www.google.com';
             }
         }
         
-        // Función para iniciar/detener el reconocimiento de voz
-        function toggleSpeechRecognition() {
-            if (!recognition) {
-                initSpeechRecognition();
-                return;
+        // Comprobar si ya verificó la edad
+        window.onload = function() {
+            if (!localStorage.getItem('ageVerified')) {
+                document.getElementById('ageVerify').style.display = 'flex';
             }
-            
-            if (isListening) {
-                recognition.stop();
-            } else {
-                recognition.start();
-            }
+        };
+        
+        // Toggle menú móvil
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
         }
         
-        // Función para mostrar una nueva frase
-        function showNewPhrase() {
-            if (currentIndex >= phrases.length) {
-                showCompletionAnimation();
-                return;
-            }
-            
-            currentPhrase = phrases[currentIndex];
-            spanishPhraseElement.textContent = currentPhrase.spanish;
-            phraseEmojiElement.textContent = currentPhrase.emoji;
-            englishInput.value = '';
-            
-            // Actualizar progreso
-            updateProgress();
-            
-            // Ocultar botón siguiente y feedback
-            nextButton.style.display = 'none';
-            feedbackElement.style.display = 'none';
-            
-            // Enfocar el input (excepto en modo voz)
-            if (!isVoiceMode) {
-                englishInput.focus();
-            }
-            
-            // Escuchar automáticamente en modo voz
-            if (isVoiceMode && recognition) {
-                setTimeout(() => {
-                    toggleSpeechRecognition();
-                }, 1000);
-            }
+        // Modal de login
+        function toggleLoginModal(show) {
+            const loginModal = document.getElementById('loginModal');
+            loginModal.style.display = show ? 'flex' : 'none';
         }
         
-        // Función para verificar la respuesta
-        function checkAnswer() {
-            if (englishInput.value.trim() === '') {
-                feedbackElement.style.display = 'block';
-                feedbackElement.className = 'feedback incorrect';
-                feedbackElement.innerHTML = 'Por favor, ingresa una respuesta.';
-                return;
-            }
-            
-            totalAttempted++;
-            const userAnswer = englishInput.value.trim().toLowerCase();
-            const correctAnswer = currentPhrase.english.toLowerCase();
-            
-            // Verificar si la respuesta es correcta (con cierta flexibilidad)
-            // Permitimos pequeños errores como puntuación, mayúsculas, etc.
-            const isCorrect = isAnswerCorrect(userAnswer, correctAnswer);
-            
-            feedbackElement.style.display = 'block';
-            
-            if (isCorrect) {
-                correctAnswers++;
-                currentStreak++;
-                if (currentStreak > bestStreak) {
-                    bestStreak = currentStreak;
-                }
-                
-                // Actualizar el contador de racha
-                streakCount.textContent = currentStreak;
-                
-                feedbackElement.className = 'feedback correct';
-                feedbackElement.innerHTML = '¡Correcto! 🎉';
-                
-                // Mostrar botón para siguiente pregunta
-                nextButton.style.display = 'flex';
-                checkButton.style.display = 'none';
-                
-                // Mostrar confeti para celebrar
-                createConfetti(5);
-            } else {
-                // Reiniciar racha si hay error
-                currentStreak = 0;
-                streakCount.textContent = 0;
-                
-                feedbackElement.className = 'feedback incorrect';
-                feedbackElement.innerHTML = `
-                    Incorrecto. La respuesta correcta es: <strong>"${currentPhrase.english}"</strong>
-                    <div class="encouragement">${getRandomEncouragement()}</div>
-                `;
-                
-                // Mostrar botón para siguiente pregunta
-                nextButton.style.display = 'flex';
-                checkButton.style.display = 'none';
-            }
+        // Formulario de login
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Funcionalidad de login no implementada en esta demo.');
+            toggleLoginModal(false);
+        });
+        
+        // Modal de video
+        function openVideoModal(title, views, date, description) {
+            const modal = document.getElementById('videoModal');
+            document.getElementById('videoTitle').textContent = title;
+            document.getElementById('videoViews').textContent = views;
+            document.getElementById('videoDate').textContent = date;
+            document.getElementById('videoDescription').textContent = description;
+            modal.style.display = 'flex';
         }
         
-        // Función para comparar respuestas con cierta flexibilidad
-        function isAnswerCorrect(userAnswer, correctAnswer) {
-            // Eliminar puntuación y espacios extra
-            const cleanUserAnswer = userAnswer.replace(/[.,!?]/g, '').replace(/\s+/g, ' ').trim();
-            const cleanCorrectAnswer = correctAnswer.replace(/[.,!?]/g, '').replace(/\s+/g, ' ').trim();
-            
-            // Verificar coincidencia exacta
-            if (cleanUserAnswer === cleanCorrectAnswer) {
-                return true;
-            }
-            
-            // Verificar si es muy similar (para tolerar pequeños errores)
-            const similarity = calculateSimilarity(cleanUserAnswer, cleanCorrectAnswer);
-            return similarity > 0.85; // 85% de similitud es aceptable
+        function closeVideoModal() {
+            document.getElementById('videoModal').style.display = 'none';
         }
         
-        // Función para calcular similitud entre dos textos
-        function calculateSimilarity(s1, s2) {
-            // Implementación simple de distancia de Levenshtein
-            const track = Array(s2.length + 1).fill(null).map(() => 
-                Array(s1.length + 1).fill(null));
-                
-            for (let i = 0; i <= s1.length; i++) {
-                track[0][i] = i;
-            }
-            
-            for (let j = 0; j <= s2.length; j++) {
-                track[j][0] = j;
-            }
-            
-            for (let j = 1; j <= s2.length; j++) {
-                for (let i = 1; i <= s1.length; i++) {
-                    const cost = s1[i - 1] === s2[j - 1] ? 0 : 1;
-                    track[j][i] = Math.min(
-                        track[j][i - 1] + 1,
-                        track[j - 1][i] + 1,
-                        track[j - 1][i - 1] + cost
-                    );
-                }
-            }
-            
-            const distance = track[s2.length][s1.length];
-            const maxLength = Math.max(s1.length, s2.length);
-            
-            return 1 - distance / maxLength;
-        }
-        
-        // Obtener mensaje de ánimo aleatorio
-        function getRandomEncouragement() {
-            const randomIndex = Math.floor(Math.random() * encouragements.length);
-            return encouragements[randomIndex];
-        }
-        
-        // Función para actualizar la barra de progreso
-        function updateProgress() {
-            const percentage = (currentIndex / phrases.length) * 100;
-            progressBar.style.width = percentage + '%';
-            progressCounter.textContent = `${currentIndex}/${phrases.length}`;
-        }
-        
-        // Mostrar animación de completado
-        function showCompletionAnimation() {
-            const accuracy = totalAttempted > 0 ? Math.round((correctAnswers / totalAttempted) * 100) : 0;
-            
-            // Actualizar elementos de estadísticas
-            correctCountElement.textContent = correctAnswers;
-            accuracyPercentageElement.textContent = accuracy + '%';
-            finalStreakElement.textContent = bestStreak;
-            
-            // Mostrar animación
-            completionAnimation.classList.add('active');
-        }
-        
-        // Reiniciar el juego
-        function restartGame() {
-            // Reiniciar variables
-            currentIndex = 0;
-            correctAnswers = 0;
-            currentStreak = 0;
-            totalAttempted = 0;
-            
-            // Actualizar elementos
-            streakCount.textContent = 0;
-            
-            // Ocultar animación de completado
-            completionAnimation.classList.remove('active');
-            
-            // Barajar frases para orden aleatorio
-            shufflePhrases();
-            
-            // Mostrar nueva frase
-            showNewPhrase();
-        }
-        
-        // Función para crear efecto de confeti
-        function createConfetti(count) {
-            for (let i = 0; i < count; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.left = Math.random() * 100 + '%';
-                confetti.style.backgroundColor = getRandomColor();
-                confetti.style.width = Math.floor(Math.random() * 8 + 5) + 'px';
-                confetti.style.height = Math.floor(Math.random() * 8 + 5) + 'px';
-                document.body.appendChild(confetti);
-                
-                // Eliminar confeti después de la animación
-                setTimeout(() => {
-                    document.body.removeChild(confetti);
-                }, 3000);
-            }
-        }
-        
-        // Obtener color aleatorio
-        function getRandomColor() {
-            const colors = ['#FF5F6D', '#FFC371', '#6A11CB', '#2575FC', '#00C9A7', '#FFD166'];
-            return colors[Math.floor(Math.random() * colors.length)];
-        }
-        
-        // Función para barajar frases
-        function shufflePhrases() {
-            for (let i = phrases.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [phrases[i], phrases[j]] = [phrases[j], phrases[i]];
-            }
-        }
-        
-        // Cambiar modo (texto o voz)
-        function setVoiceMode(enabled) {
-            isVoiceMode = enabled;
-            
-            if (enabled) {
-                if (!initSpeechRecognition()) {
-                    return; // Si no se pudo inicializar, salir
-                }
-                
-                voiceModeBtn.classList.add('active');
-                textModeBtn.classList.remove('active');
-                inputLabel.textContent = 'Di la traducción:';
-                englishInput.placeholder = 'Presiona el micrófono para hablar';
-                micButton.style.display = 'flex';
-            } else {
-                voiceModeBtn.classList.remove('active');
-                textModeBtn.classList.add('active');
-                inputLabel.textContent = 'Traduce al inglés:';
-                englishInput.placeholder = 'Escribe la traducción aquí';
-                micButton.style.display = 'none';
-                
-                // Detener reconocimiento si está activo
-                if (isListening && recognition) {
-                    recognition.stop();
-                }
-            }
-        }
-        
-        // Event Listeners
-        document.addEventListener('DOMContentLoaded', function() {
-            // Inicializar
-            shufflePhrases();
-            showNewPhrase();
-            
-            // Botón para comprobar respuesta
-            checkButton.addEventListener('click', checkAnswer);
-            
-            // Botón para siguiente frase
-            nextButton.addEventListener('click', function() {
-                currentIndex++;
-                showNewPhrase();
-                checkButton.style.display = 'flex';
-            });
-            
-            // Comprobar al presionar Enter
-            englishInput.addEventListener('keyup', function(event) {
-                if (event.key === 'Enter') {
-                    if (nextButton.style.display === 'flex') {
-                        // Si el botón siguiente está visible, ir a la siguiente frase
-                        nextButton.click();
-                    } else {
-                        // Si no, comprobar respuesta
-                        checkAnswer();
-                    }
-                }
-            });
-            
-            // Botón para reiniciar
-            restartButton.addEventListener('click', restartGame);
-            
-            // Botón de micrófono
-            micButton.addEventListener('click', toggleSpeechRecognition);
-            
-            // Botones de modo
-            textModeBtn.addEventListener('click', function() {
-                setVoiceMode(false);
-            });
-            
-            voiceModeBtn.addEventListener('click', function() {
-                setVoiceMode(true);
+        // Cambiar categoría activa
+        const categories = document.querySelectorAll('.category');
+        categories.forEach(category => {
+            category.addEventListener('click', function() {
+                categories.forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
             });
         });
     </script>
