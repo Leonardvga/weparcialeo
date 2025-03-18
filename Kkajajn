@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Autenticación | GitHub</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+    :root {
+      --primary: #2ea44f;
+      --primary-hover: #2c974b;
+      --dark: #24292e;
+      --light-gray: #f6f8fa;
+      --border: #e1e4e8;
+      --text: #24292e;
+      --blue: #0366d6;
+      --error: #cb2431;
+      --success: #22863a;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      background-color: #f9f9f9;
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .logo-container {
+      text-align: center;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 15px;
+      background-color: white;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid var(--dark);
+      transform: rotate(0deg);
+      transition: transform 0.5s ease;
+    }
+
+    .logo:hover {
+      transform: rotate(10deg);
+    }
+
+    .logo::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+      transform: translateX(-100%);
+      animation: shine 2s infinite;
+    }
+
+    @keyframes shine {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .logo i {
+      font-size: 30px;
+      color: var(--dark);
+    }
+
+    .app-name {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .app-description {
+      font-size: 14px;
+      color: #586069;
+      margin-bottom: 30px;
+    }
+
+    .auth-card {
+      background-color: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      border: 1px solid var(--border);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .auth-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    .auth-tabs {
+      display: flex;
+      margin-bottom: 25px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .auth-tabs::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background-color: var(--border);
+      z-index: -1;
+    }
+
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 12px 0;
+      font-weight: 500;
+      cursor: pointer;
+      position: relative;
+      color: #586069;
+      transition: color 0.3s ease;
+    }
+
+    .tab.active {
+      color: var(--blue);
+    }
+
+    .tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: var(--blue);
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+
+    .form-container {
+      display: none;
+    }
+
+    .form-container.active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    .input-group {
+      position: relative;
+    }
+
+    .input-group i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #6a737d;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 10px 12px 40px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(3, 102, 214, 0.3);
+    }
+
+    .form-control.error {
+      border-color: var(--error);
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .btn-outline {
+      background-color: white;
+      color: var(--dark);
+      border: 1px solid var(--border);
+      margin-top: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-outline:hover {
+      background-color: var(--light-gray);
+    }
+
+    .btn:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(46, 164, 79, 0.4);
+    }
+
+    .btn::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: -100%;
+      background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.2), rgba(255,255,255,0));
+      transition: 0.5s;
+    }
+
+    .btn:hover::after {
+      left: 100%;
+    }
+
+    .separator {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin: 25px 0;
+      color: #6a737d;
+      font-size: 14px;
+    }
+
+    .separator::before,
+    .separator::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .separator::before {
+      margin-right: 15px;
+    }
+
+    .separator::after {
+      margin-left: 15px;
+    }
+
+    .error-message {
+      color: var(--error);
+      background-color: #ffeef0;
+      border: 1px solid #ffdce0;
+      padding: 10px 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: shake 0.5s ease;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+      20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+
+    .success-message {
+      color: var(--success);
+      background-color: #f0fff4;
+      border: 1px solid #dcffe4;
+      padding: 10px 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 14px;
+      color: #586069;
+    }
+
+    .footer a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    .forget-password {
+      text-align: right;
+      margin-bottom: 20px;
+    }
+
+    .forget-password a {
+      font-size: 13px;
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    .forget-password a:hover {
+      text-decoration: underline;
+    }
+
+    .brand-icons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .brand-icon:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .github {
+      background-color: #24292e;
+      border-color: #1b1f23;
+    }
+
+    .google {
+      background-color: #DB4437;
+      border-color: #c53929;
+    }
+
+    .apple {
+      background-color: #000000;
+      border-color: #333333;
+    }
+
+    /* Animación para los botones */
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .btn:active {
+      animation: pulse 0.3s ease;
+    }
+
+    /* Modo responsivo */
+    @media (max-width: 480px) {
+      .auth-card {
+        padding: 20px;
+      }
+    }
+
+    /* Tooltips para los íconos */
+    .brand-icon {
+      position: relative;
+    }
+
+    .brand-icon::before {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: var(--dark);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+      white-space: nowrap;
+    }
+
+    .brand-icon:hover::before {
+      opacity: 1;
+      visibility: visible;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo-container">
+      <div class="logo">
+        <i class="fab fa-github"></i>
+      </div>
+      <h2 class="app-name">DevConnect</h2>
+      <p class="app-description">Tu plataforma segura de colaboración para desarrolladores</p>
+    </div>
+
+    <div class="auth-card">
+      <div class="auth-tabs">
+        <div class="tab active" id="login-tab">Iniciar Sesión</div>
+        <div class="tab" id="register-tab">Registrarse</div>
+        <div class="tab" id="reset-tab">Recuperar</div>
+      </div>
+
+      <!-- Formulario de Inicio de Sesión -->
+      <div class="form-container active" id="login-form">
+        <div class="error-message" style="display: none;">
+          <i class="fas fa-exclamation-circle"></i>
+          <span>Correo o contraseña incorrectos</span>
+        </div>
+
+        <form>
+          <div class="form-group">
+            <label for="email">Correo Electrónico</label>
+            <div class="input-group">
+              <i class="fas fa-envelope"></i>
+              <input type="email" class="form-control" id="email" placeholder="ejemplo@correo.com" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="password">Contraseña</label>
+            <div class="input-group">
+              <i class="fas fa-lock"></i>
+              <input type="password" class="form-control" id="password" placeholder="Ingresa tu contraseña" required>
+            </div>
+          </div>
+
+          <div class="forget-password">
+            <a href="#" id="forget-link">¿Olvidaste tu contraseña?</a>
+          </div>
+
+          <button type="submit" class="btn btn-primary">
+            Iniciar Sesión
+          </button>
+
+          <div class="separator">O continuar con</div>
+
+          <div class="brand-icons">
+            <div class="brand-icon github" data-tooltip="GitHub">
+              <i class="fab fa-github"></i>
+            </div>
+            <div class="brand-icon google" data-tooltip="Google">
+              <i class="fab fa-google"></i>
+            </div>
+            <div class="brand-icon apple" data-tooltip="Apple">
+              <i class="fab fa-apple"></i>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Formulario de Registro -->
+      <div class="form-container" id="register-form">
+        <form>
+          <div class="form-group">
+            <label for="reg-username">Nombre de Usuario</label>
+            <div class="input-group">
+              <i class="fas fa-user"></i>
+              <input type="text" class="form-control" id="reg-username" placeholder="Nombre de usuario" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="reg-email">Correo Electrónico</label>
+            <div class="input-group">
+              <i class="fas fa-envelope"></i>
+              <input type="email" class="form-control" id="reg-email" placeholder="ejemplo@correo.com" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="reg-password">Contraseña</label>
+            <div class="input-group">
+              <i class="fas fa-lock"></i>
+              <input type="password" class="form-control" id="reg-password" placeholder="Mínimo 6 caracteres" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="reg-confirm-password">Confirmar Contraseña</label>
+            <div class="input-group">
+              <i class="fas fa-lock"></i>
+              <input type="password" class="form-control" id="reg-confirm-password" placeholder="Confirma tu contraseña" required>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary">
+            Crear Cuenta
+          </button>
+
+          <div class="separator">O registrarse con</div>
+          
+          <div class="brand-icons">
+            <div class="brand-icon github" data-tooltip="GitHub">
+              <i class="fab fa-github"></i>
+            </div>
+            <div class="brand-icon google" data-tooltip="Google">
+              <i class="fab fa-google"></i>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Formulario de Recuperación -->
+      <div class="form-container" id="reset-form">
+        <div class="success-message" style="display: none;">
+          <i class="fas fa-check-circle"></i>
+          <span>Se ha enviado un correo para recuperar tu contraseña.</span>
+        </div>
+
+        <p style="margin-bottom: 20px; font-size: 14px;">Ingresa tu correo electrónico y te enviaremos instrucciones para restablecer tu contraseña.</p>
+        
+        <form>
+          <div class="form-group">
+            <label for="reset-email">Correo Electrónico</label>
+            <div class="input-group">
+              <i class="fas fa-envelope"></i>
+              <input type="email" class="form-control" id="reset-email" placeholder="ejemplo@correo.com" required>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary">
+            Enviar Instrucciones
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>¿Tienes problemas para acceder? <a href="#">Contacta a soporte</a></p>
+      <p style="margin-top: 10px;">© 2025 DevConnect. Todos los derechos reservados.</p>
+    </div>
+  </div>
+
+  <script>
+    // Controladores para cambiar entre las pestañas
+    document.getElementById('login-tab').addEventListener('click', function() {
+      switchTab('login');
+    });
+    
+    document.getElementById('register-tab').addEventListener('click', function() {
+      switchTab('register');
+    });
+    
+    document.getElementById('reset-tab').addEventListener('click', function() {
+      switchTab('reset');
+    });
+    
+    document.getElementById('forget-link').addEventListener('click', function(e) {
+      e.preventDefault();
+      switchTab('reset');
+    });
+    
+    function switchTab(tabName) {
+      // Reiniciar todas las pestañas y formularios
+      document.querySelectorAll('.tab').forEach(function(tab) {
+        tab.classList.remove('active');
+      });
+      
+      document.querySelectorAll('.form-container').forEach(function(form) {
+        form.classList.remove('active');
+      });
+      
+      // Activar la pestaña y formulario seleccionados
+      document.getElementById(tabName + '-tab').classList.add('active');
+      document.getElementById(tabName + '-form').classList.add('active');
+    }
+    
+    // Simulación de error al iniciar sesión (solo para demostración)
+    document.querySelector('#login-form form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      
+      if (email === 'demo@example.com' && password === 'password') {
+        document.querySelector('.error-message').style.display = 'none';
+        alert('¡Inicio de sesión exitoso!');
+      } else {
+        document.querySelector('.error-message').style.display = 'flex';
+      }
+    });
+    
+    // Simulación de registro (solo para demostración)
+    document.querySelector('#register-form form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('¡Cuenta creada con éxito!');
+      switchTab('login');
+    });
+    
+    // Simulación de recuperación de contraseña (solo para demostración)
+    document.querySelector('#reset-form form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      document.querySelector('.success-message').style.display = 'flex';
+      setTimeout(() => {
+        document.getElementById('reset-email').value = '';
+      }, 500);
+    });
+    
+    // Animación para los íconos de marca
+    document.querySelectorAll('.brand-icon').forEach(function(icon) {
+      icon.addEventListener('click', function() {
+        alert('Iniciando sesión con ' + this.getAttribute('data-tooltip'));
+      });
+    });
+  </script>
+</body>
+</html>
