@@ -1,1024 +1,742 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>¡Aprende Español e Inglés!</title>
+    <title>Position of Adverbs in a Sentence</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
-        
         :root {
-            --primary: #FF5F6D;
-            --primary-gradient: linear-gradient(to right, #FF5F6D, #FFC371);
-            --secondary: #6A11CB;
-            --secondary-gradient: linear-gradient(to right, #6A11CB, #2575FC);
-            --success: #00C9A7;
-            --danger: #FF4B91;
-            --warning: #FFD166;
-            --dark: #2D3748;
-            --light: #F7FAFC;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            --primary-color: #6a8d73;
+            --secondary-color: #f4e9cd;
+            --accent-color: #ed6a5a;
+            --dark-color: #2c363f;
+            --light-color: #f8f8f8;
         }
         
         body {
-            font-family: 'Nunito', sans-serif;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3Cpath d='M6 5V0H5v5H0v1h5v94h1V6h94V5H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
             padding: 20px;
         }
         
-        .app-container {
-            width: 90%;
-            max-width: 800px;
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-            position: relative;
-        }
-        
         .header {
-            background-image: var(--primary-gradient);
-            padding: 25px;
             text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, var(--primary-color), #8cb369);
             color: white;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             position: relative;
+            overflow: hidden;
         }
         
         .header h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            margin: 0;
+            font-size: 2.8rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 2;
         }
         
-        .header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
+        .header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 10%, transparent 60%);
+            transform: rotate(30deg);
+            z-index: 1;
         }
         
-        .content {
+        .section {
+            background-color: white;
+            border-radius: 15px;
             padding: 30px;
-            position: relative;
-        }
-        
-        .card {
-            background: var(--light);
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
             position: relative;
             overflow: hidden;
+            transition: all 0.4s ease;
+            transform-origin: center;
+            border-left: 5px solid var(--primary-color);
         }
         
-        .card:hover {
-            transform: translateY(-5px);
+        .section:hover {
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
         }
         
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 5px;
-            height: 100%;
-            background-image: var(--secondary-gradient);
-        }
-        
-        .spanish-phrase {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--dark);
-            margin-bottom: 15px;
+        .section h2 {
+            color: var(--primary-color);
+            margin-top: 0;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            border-bottom: 2px dashed var(--secondary-color);
             display: flex;
             align-items: center;
         }
         
-        .input-group {
+        .example {
+            background-color: var(--secondary-color);
+            padding: 18px 20px;
+            border-radius: 10px;
             margin: 20px 0;
-        }
-        
-        .input-group label {
-            display: block;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--dark);
-            margin-bottom: 8px;
-        }
-        
-        .input-container {
+            border-left: 5px solid var(--accent-color);
+            transition: transform 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
             position: relative;
-            display: flex;
         }
         
-        .english-input {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #E2E8F0;
-            border-radius: 10px 0 0 10px;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            background-color: white;
+        .example:hover {
+            transform: translateX(10px);
         }
         
-        .english-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(255,95,109,0.2);
-        }
-        
-        .mic-button {
-            background-color: var(--primary);
-            border: none;
-            border-radius: 0 10px 10px 0;
-            width: 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .highlight {
+            color: var(--accent-color);
+            font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s ease;
+            position: relative;
+            padding: 2px 4px;
+            border-radius: 4px;
+            transition: all 0.2s;
+            text-decoration: underline;
+            text-decoration-style: wavy;
+            text-decoration-color: var(--accent-color);
         }
         
-        .mic-button:hover {
-            background-color: #FF4B5F;
+        .highlight:hover {
+            background-color: var(--accent-color);
+            color: white;
+            text-decoration: none;
         }
         
-        .mic-icon {
-            width: 24px;
-            height: 24px;
-            fill: white;
+        .circle-decoration {
+            position: absolute;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            opacity: 0.15;
+            z-index: 0;
+            transition: all 0.6s ease-in-out;
         }
         
-        .button-group {
+        .section:hover .circle-decoration {
+            transform: scale(1.1) translateY(-10px);
+        }
+        
+        .circle-1 {
+            width: 120px;
+            height: 120px;
+            top: -40px;
+            left: -40px;
+        }
+        
+        .circle-2 {
+            width: 80px;
+            height: 80px;
+            bottom: 30px;
+            right: 30px;
+        }
+        
+        .section-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .selection-actions {
+            position: absolute;
+            background-color: var(--dark-color);
+            color: white;
+            border-radius: 8px;
+            padding: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 100;
             display: flex;
             gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .btn {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 10px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        
-        .btn-check {
-            background-image: var(--primary-gradient);
-            color: white;
-            flex: 1;
-        }
-        
-        .btn-check:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255,95,109,0.3);
-        }
-        
-        .btn-next {
-            background-image: var(--secondary-gradient);
-            color: white;
-            flex: 1;
-        }
-        
-        .btn-next:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(106,17,203,0.3);
-        }
-        
-        .feedback {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .correct {
-            background-color: rgba(0,201,167,0.1);
-            color: var(--success);
-            border-left: 4px solid var(--success);
-        }
-        
-        .incorrect {
-            background-color: rgba(255,75,145,0.1);
-            color: var(--danger);
-            border-left: 4px solid var(--danger);
-        }
-        
-        .encouragement {
-            margin-top: 10px;
-            font-style: italic;
-            color: #4A5568;
-            font-weight: normal;
-        }
-        
-        .progress-container {
-            position: relative;
-            height: 8px;
-            background-color: #E2E8F0;
-            border-radius: 4px;
-            margin: 20px 0;
-            overflow: hidden;
-        }
-        
-        .progress-bar {
-            height: 100%;
-            background-image: var(--primary-gradient);
-            border-radius: 4px;
-            transition: width 0.3s ease;
-        }
-        
-        .progress-text {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.9rem;
-            color: #4A5568;
-            margin-bottom: 5px;
-        }
-        
-        .emoji {
-            font-size: 1.5rem;
-            margin-right: 10px;
-            display: inline-block;
-        }
-        
-        .confetti {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #FFC371;
-            top: -10px;
-            z-index: 10;
-            animation: fall 3s ease-out;
             opacity: 0;
-        }
-        
-        @keyframes fall {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(200px) rotate(360deg);
-                opacity: 0;
-            }
-        }
-        
-        .streak-badge {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-image: var(--secondary-gradient);
-            color: white;
-            border-radius: 15px;
-            padding: 5px 15px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            box-shadow: 0 5px 15px rgba(106,17,203,0.3);
-        }
-        
-        .completion-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
+            transform: translateY(10px);
             pointer-events: none;
-            transition: opacity 0.3s ease;
+            transition: all 0.2s ease-out;
         }
         
-        .completion-content {
-            background-color: white;
-            border-radius: 20px;
-            padding: 40px;
-            text-align: center;
-            max-width: 500px;
-            width: 90%;
-            transform: scale(0.9);
-            transition: transform 0.3s ease;
-        }
-        
-        .completion-animation.active {
+        .selection-actions.visible {
             opacity: 1;
+            transform: translateY(0);
             pointer-events: all;
         }
         
-        .completion-animation.active .completion-content {
-            transform: scale(1);
-        }
-        
-        .completion-title {
-            font-size: 2rem;
-            color: var(--primary);
-            margin-bottom: 20px;
-        }
-        
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            margin: 30px 0;
-        }
-        
-        .stat-item {
-            text-align: center;
-        }
-        
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--secondary);
-        }
-        
-        .stat-label {
-            font-size: 0.9rem;
-            color: #4A5568;
-        }
-        
-        .mode-switch {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        
-        .mode-switch button {
-            padding: 8px 15px;
-            border: none;
-            background-color: #E2E8F0;
-            color: #4A5568;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .mode-switch button:first-child {
-            border-radius: 5px 0 0 5px;
-        }
-        
-        .mode-switch button:last-child {
-            border-radius: 0 5px 5px 0;
-        }
-        
-        .mode-switch button.active {
-            background-image: var(--primary-gradient);
+        .action-button {
+            background-color: rgba(255,255,255,0.2);
             color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 6px 10px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: background-color 0.2s;
         }
         
-        .listening-indicator {
+        .action-button:hover {
+            background-color: rgba(255,255,255,0.3);
+        }
+        
+        .tooltip {
+            position: fixed;
+            background-color: var(--dark-color);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 14px;
             display: none;
+            z-index: 100;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        
+        .section-number {
+            display: inline-flex;
+            background-color: var(--primary-color);
+            color: white;
+            width: 45px;
+            height: 45px;
+            justify-content: center;
             align-items: center;
+            border-radius: 50%;
+            margin-right: 15px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+        }
+        
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background-color: white;
+            border-radius: 30px;
+            padding: 10px 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .flag {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            cursor: pointer;
+            filter: grayscale(70%);
+            transition: all 0.3s;
+        }
+        
+        .flag:hover, .flag.active {
+            filter: grayscale(0%);
+            transform: scale(1.1);
+        }
+        
+        .floating-particle {
+            position: absolute;
+            background-color: var(--primary-color);
+            opacity: 0.15;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 6s infinite ease-in-out;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--dark-color);
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        
+        .reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 5px;
+            background: linear-gradient(to right, var(--accent-color), var(--primary-color));
+            z-index: 1000;
+            transition: width 0.1s;
+        }
+        
+        .example::before {
+            content: "Example";
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .navigation-dots {
+            display: flex;
             justify-content: center;
             gap: 10px;
-            margin-top: 10px;
-            color: var(--primary);
-            font-weight: 600;
-            animation: pulse 1.5s infinite;
+            margin-bottom: 30px;
         }
         
-        @keyframes pulse {
-            0% {
-                opacity: 0.6;
-            }
-            50% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0.6;
-            }
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            background-color: var(--secondary-color);
+            border-radius: 50%;
+            transition: all 0.3s;
+            cursor: pointer;
         }
         
-        .voice-waves {
-            display: flex;
-            align-items: center;
-            height: 20px;
+        .nav-dot.active {
+            background-color: var(--primary-color);
+            transform: scale(1.3);
         }
         
-        .wave {
-            width: 3px;
-            height: 100%;
-            margin: 0 2px;
-            border-radius: 2px;
-            background-color: var(--primary);
-            animation: wave 1s infinite ease-in-out;
-        }
-        
-        .wave:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-        
-        .wave:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-        
-        .wave:nth-child(4) {
-            animation-delay: 0.6s;
-        }
-        
-        @keyframes wave {
-            0%, 100% {
-                height: 30%;
-            }
-            50% {
-                height: 100%;
-            }
-        }
-        
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
             .header h1 {
-                font-size: 1.8rem;
+                font-size: 2rem;
             }
             
-            .spanish-phrase {
-                font-size: 1.5rem;
-            }
-            
-            .content {
+            .section {
                 padding: 20px;
-            }
-            
-            .card {
-                padding: 15px;
-            }
-            
-            .btn {
-                padding: 10px 15px;
-            }
-            
-            .button-group {
-                flex-direction: column;
             }
         }
     </style>
 </head>
 <body>
-    <div class="app-container">
+    <div class="reading-progress" id="reading-progress"></div>
+    
+    <div class="language-switcher">
+        <img src="/api/placeholder/25/25" alt="English" class="flag active" data-lang="en">
+        <img src="/api/placeholder/25/25" alt="Spanish" class="flag" data-lang="es">
+    </div>
+    
+    <div class="tooltip" id="tooltip">Click to hear pronunciation</div>
+    <div class="selection-actions" id="selection-actions">
+        <button class="action-button" id="listen-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                <line x1="12" y1="19" x2="12" y2="23"></line>
+                <line x1="8" y1="23" x2="16" y2="23"></line>
+            </svg>
+            Listen
+        </button>
+        <button class="action-button" id="translate-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 8l5 5 5-5"></path>
+                <path d="M12 13V3"></path>
+                <path d="M3 17h12a4 4 0 0 0 4-4V3"></path>
+                <path d="M18 21l5-5-5-5"></path>
+            </svg>
+            Translate
+        </button>
+    </div>
+    
+    <div class="container">
         <div class="header">
-            <h1>¡Aprende Español e Inglés!</h1>
-            <p>Practica y mejora tu vocabulario en ambos idiomas</p>
-            <div class="streak-badge">
-                <span id="streak-count">0</span> 🔥 Racha
+            <h1>Position of Adverbs in a Sentence and Why?</h1>
+        </div>
+        
+        <div class="navigation-dots">
+            <div class="nav-dot active" data-section="1"></div>
+            <div class="nav-dot" data-section="2"></div>
+            <div class="nav-dot" data-section="3"></div>
+            <div class="nav-dot" data-section="4"></div>
+        </div>
+        
+        <div class="section" id="section-1" data-section="1">
+            <div class="circle-decoration circle-1"></div>
+            <div class="circle-decoration circle-2"></div>
+            <div class="section-content">
+                <h2><span class="section-number">1</span>Adverbs that modify verbs</h2>
+                <p>They usually come after the verb or before the adjective or adverb they modify.</p>
+                <div class="example">
+                    Example: She sings <span class="highlight" data-text="beautifully">beautifully</span>
+                </div>
+                
+                <p>If the verb is used in a compound form, the adverb is placed after the auxiliary or before the main verb.</p>
+                <div class="example">
+                    Example: My friends live <span class="highlight" data-text="nearby">nearby</span>
+                </div>
+                
+                <p>At the beginning of the sentence to emphasize the meaning.</p>
+                <div class="example">
+                    Example: <span class="highlight" data-text="Tomorrow">Tomorrow</span> we will travel to the beach.
+                </div>
             </div>
         </div>
         
-        <div class="content">
-            <div class="mode-switch">
-                <button id="text-mode-btn" class="active">Modo Texto</button>
-                <button id="voice-mode-btn">Modo Voz</button>
-            </div>
-            
-            <div class="progress-text">
-                <span>Progreso</span>
-                <span id="progress-counter">0/20</span>
-            </div>
-            <div class="progress-container">
-                <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
-            </div>
-            
-            <div class="card">
-                <div class="spanish-phrase">
-                    <span class="emoji" id="phrase-emoji"></span>
-                    <span id="spanish-phrase"></span>
-                </div>
-                
-                <div class="input-group">
-                    <label id="input-label" for="english-input">Traduce al inglés:</label>
-                    <div class="input-container">
-                        <input type="text" id="english-input" class="english-input" placeholder="Escribe la traducción aquí">
-                        <button id="mic-button" class="mic-button">
-                            <svg class="mic-icon" viewBox="0 0 24 24">
-                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-                    <div id="listening-indicator" class="listening-indicator">
-                        <span>Escuchando...</span>
-                        <div class="voice-waves">
-                            <div class="wave"></div>
-                            <div class="wave"></div>
-                            <div class="wave"></div>
-                            <div class="wave"></div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="button-group">
-                    <button id="check-btn" class="btn btn-check">
-                        Comprobar
-                    </button>
-                    <button id="next-btn" class="btn btn-next" style="display: none;">
-                        Siguiente frase
-                    </button>
-                </div>
-                
-                <div id="feedback" class="feedback" style="display: none;"></div>
+        <div class="section" id="section-2" data-section="2">
+            <div class="circle-decoration circle-1"></div>
+            <div class="circle-decoration circle-2"></div>
+            <div class="section-content">
+                <h2><span class="section-number">2</span>Adverbs that modify adjectives or adverbs</h2>
+                <p>Adverbs that modify adjectives or other adverbs are called <span class="highlight" data-text="intensifiers">intensifiers</span> or <span class="highlight" data-text="degree adverbs">degree adverbs</span> because they describe the intensity, degree, or extent of the word they modify.</p>
             </div>
         </div>
-    </div>
-    
-    <div id="completion-animation" class="completion-animation">
-        <div class="completion-content">
-            <h2 class="completion-title">¡Felicidades! 🎉</h2>
-            <p>Has completado todas las frases</p>
-            
-            <div class="stats">
-                <div class="stat-item">
-                    <div class="stat-value" id="correct-count">0</div>
-                    <div class="stat-label">Correctas</div>
+        
+        <div class="section" id="section-3" data-section="3">
+            <div class="circle-decoration circle-1"></div>
+            <div class="circle-decoration circle-2"></div>
+            <div class="section-content">
+                <h2><span class="section-number">3</span>How They Work?</h2>
+                <p><strong>Modifying adjectives:</strong> They alter the intensity of an adjective.</p>
+                <div class="example">
+                    She is <span class="highlight" data-text="very">very</span> tall. (Modifies the adjective tall by increasing intensity.)
                 </div>
-                <div class="stat-item">
-                    <div class="stat-value" id="accuracy-percentage">0%</div>
-                    <div class="stat-label">Precisión</div>
+                <div class="example">
+                    The food was <span class="highlight" data-text="too">too</span> spicy. (Modifies spicy to indicate excess.)
                 </div>
-                <div class="stat-item">
-                    <div class="stat-value" id="final-streak">0</div>
-                    <div class="stat-label">Racha</div>
+                
+                <p><strong>Modifying adverbs:</strong> They adjust the degree of another adverb.</p>
+                <div class="example">
+                    She ran <span class="highlight" data-text="incredibly">incredibly</span> fast. (Modifies fast by showing a high degree.)
+                </div>
+                <div class="example">
+                    He speaks <span class="highlight" data-text="quite">quite</span> clearly. (Modifies clearly by adding nuance.)
                 </div>
             </div>
-            
-            <button id="restart-btn" class="btn btn-check">
-                Volver a empezar
-            </button>
+        </div>
+        
+        <div class="section" id="section-4" data-section="4">
+            <div class="circle-decoration circle-1"></div>
+            <div class="circle-decoration circle-2"></div>
+            <div class="section-content">
+                <h2><span class="section-number">4</span>Why is the position of adverbs important?</h2>
+                <p>The position of adverbs in a sentence is important because it affects <span class="highlight" data-text="meaning">meaning</span>, <span class="highlight" data-text="clarity">clarity</span>, and <span class="highlight" data-text="emphasis">emphasis</span>. Adverbs modify verbs, adjectives, other adverbs, or entire sentences, and their placement can change the interpretation of a sentence.</p>
+                
+                <p>The position of adverbs is essential for ensuring clarity, precision, and coherence in a sentence. Their placement can change the meaning of a message, so it is important to follow the positioning rules according to the type of adverb. Proper usage enhances communication and avoids ambiguities in language.</p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2025 Interactive English Grammar Guide | Learn more about adverbs and their usage</p>
         </div>
     </div>
     
     <script>
-      // Base de datos de frases ampliada
-// Base de datos de frases ampliada
-const phrases = [
-    { spanish: "¿A qué hora es la reunión?", english: "What time is the meeting?", emoji: "⏰" },
-    { spanish: "Necesito hacer una llamada.", english: "I need to make a call.", emoji: "📞" },
-    { spanish: "Olvidé traer mi paraguas.", english: "I forgot to bring my umbrella.", emoji: "☂️" },
-    { spanish: "¿Qué vamos a cenar hoy?", english: "What are we having for dinner today?", emoji: "🍽️" },
-    { spanish: "Me duele la cabeza.", english: "I have a headache.", emoji: "🤕" },
-    { spanish: "¿Puedes abrir la ventana?", english: "Can you open the window?", emoji: "🪟" },
-    { spanish: "¡Hace mucho frío hoy!", english: "It’s very cold today!", emoji: "❄️" },
-    { spanish: "Mi internet está muy lento.", english: "My internet is very slow.", emoji: "🌐" },
-    { spanish: "Tengo que ir al banco.", english: "I have to go to the bank.", emoji: "🏦" },
-    { spanish: "Se me cayó el dinero.", english: "I dropped my money.", emoji: "💸" },
-    { spanish: "No encuentro mis lentes.", english: "I can't find my glasses.", emoji: "👓" },
-    { spanish: "La luz se fue.", english: "The power went out.", emoji: "💡" },
-    { spanish: "¿Puedes bajar el volumen?", english: "Can you turn down the volume?", emoji: "🔊" },
-    { spanish: "Se me olvidaron las llaves.", english: "I forgot my keys.", emoji: "🔑" },
-    { spanish: "El café está demasiado caliente.", english: "The coffee is too hot.", emoji: "☕" },
-    { spanish: "Necesito gasolina para el auto.", english: "I need gas for the car.", emoji: "⛽" },
-    { spanish: "Voy a sacar la basura.", english: "I’m going to take out the trash.", emoji: "🗑️" },
-    { spanish: "El ascensor no funciona.", english: "The elevator is not working.", emoji: "🏢" },
-    { spanish: "No tengo señal en mi celular.", english: "I have no signal on my phone.", emoji: "📶" },
-    { spanish: "Hoy es un día muy ocupado.", english: "Today is a very busy day.", emoji: "📅" },
-    
-    // Palabras adicionales
-    { spanish: "Sombrero", english: "Hat", emoji: "🎩" },
-    { spanish: "Bufanda", english: "Scarf", emoji: "🧣" },
-    { spanish: "Guantes", english: "Gloves", emoji: "🧤" },
-    { spanish: "Calcetines", english: "Socks", emoji: "🧦" },
-    { spanish: "Zapatos", english: "Shoes", emoji: "👞" },
-    { spanish: "Pantalones", english: "Pants", emoji: "👖" },
-    { spanish: "Camisa", english: "Shirt", emoji: "👕" },
-    { spanish: "Vestido", english: "Dress", emoji: "👗" },
-    { spanish: "Reloj", english: "Watch", emoji: "⌚" },
-    { spanish: "Mochila", english: "Backpack", emoji: "🎒" },
-    { spanish: "Llaves", english: "Keys", emoji: "🔑" },
-    { spanish: "Teléfono", english: "Phone", emoji: "📱" },
-    { spanish: "Gafas de sol", english: "Sunglasses", emoji: "🕶️" },
-    { spanish: "Maleta", english: "Suitcase", emoji: "🧳" },
-    { spanish: "Cartera", english: "Wallet", emoji: "👛" },
-    { spanish: "Cepillo de dientes", english: "Toothbrush", emoji: "🪥" },
-    { spanish: "Espejo", english: "Mirror", emoji: "🪞" },
-    { spanish: "Silla", english: "Chair", emoji: "🪑" },
-    { spanish: "Escritorio", english: "Desk", emoji: "🏢" }
-];
-
-        // Mensajes de ánimo para cuando hay errores
-        const encouragements = [
-            "¡No te preocupes! Inténtalo de nuevo. 💪",
-            "¡Sigue intentándolo! Vas muy bien. 🌟",
-            "Casi lo tienes, ¡no te rindas! 👍",
-            "Aprender un idioma lleva tiempo, ¡tú puedes! 🧠",
-            "El error es parte del aprendizaje. ¡Continúa! 📚",
-            "¡Cada intento te acerca más al éxito! 🚀",
-            "La práctica hace al maestro. ¡Sigue adelante! 🏆",
-            "¡Vas por buen camino! Inténtalo una vez más. 🌈",
-            "Recuerda: el error es el mejor maestro. ¡Ánimo! 🌱",
-            "¡No pasa nada! Intentémoslo de nuevo. 💫"
-        ];
-
-        // Variables globales
-        let currentPhrase;
-        let currentIndex = 0;
-        let correctAnswers = 0;
-        let currentStreak = 0;
-        let bestStreak = 0;
-        let totalAttempted = 0;
-        let isVoiceMode = false;
-        let isListening = false;
-        let recognition;
-
-        // Elementos del DOM
-        const spanishPhraseElement = document.getElementById('spanish-phrase');
-        const phraseEmojiElement = document.getElementById('phrase-emoji');
-        const englishInput = document.getElementById('english-input');
-        const checkButton = document.getElementById('check-btn');
-        const nextButton = document.getElementById('next-btn');
-        const feedbackElement = document.getElementById('feedback');
-        const progressBar = document.getElementById('progress-bar');
-        const progressCounter = document.getElementById('progress-counter');
-        const streakCount = document.getElementById('streak-count');
-        const completionAnimation = document.getElementById('completion-animation');
-        const correctCountElement = document.getElementById('correct-count');
-        const accuracyPercentageElement = document.getElementById('accuracy-percentage');
-        const finalStreakElement = document.getElementById('final-streak');
-        const restartButton = document.getElementById('restart-btn');
-        const micButton = document.getElementById('mic-button');
-        const listeningIndicator = document.getElementById('listening-indicator');
-        const textModeBtn = document.getElementById('text-mode-btn');
-        const voiceModeBtn = document.getElementById('voice-mode-btn');
-        const inputLabel = document.getElementById('input-label');
-
-        // Inicializar reconocimiento de voz si está disponible
-        function initSpeechRecognition() {
-            // Verificar si el navegador soporta reconocimiento de voz
-            if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
-                recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-                recognition.continuous = false;
-                recognition.interimResults = false;
-                recognition.lang = 'en-US'; // Para detectar inglés
+        document.addEventListener('DOMContentLoaded', function() {
+            const tooltip = document.getElementById('tooltip');
+            const highlightElements = document.querySelectorAll('.highlight');
+            const selectionActions = document.getElementById('selection-actions');
+            const listenBtn = document.getElementById('listen-btn');
+            const translateBtn = document.getElementById('translate-btn');
+            const readingProgress = document.getElementById('reading-progress');
+            const navDots = document.querySelectorAll('.nav-dot');
+            const sections = document.querySelectorAll('.section');
+            let synth = window.speechSynthesis;
+            let currentLanguage = 'en';
+            
+            // Create floating particles
+            createFloatingParticles();
+            
+            // Reading progress
+            window.addEventListener('scroll', function() {
+                const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrollPercentage = (scrollTop / scrollHeight) * 100;
+                readingProgress.style.width = scrollPercentage + '%';
                 
-                recognition.onstart = function() {
-                    isListening = true;
-                    listeningIndicator.style.display = 'flex';
-                    micButton.style.backgroundColor = '#FF4B5F';
-                };
+                // Update active nav dot based on scroll position
+                updateActiveNavDot();
+            });
+            
+            // Scroll to section when clicking nav dot
+            navDots.forEach(dot => {
+                dot.addEventListener('click', function() {
+                    const sectionNumber = this.getAttribute('data-section');
+                    const targetSection = document.getElementById('section-' + sectionNumber);
+                    window.scrollTo({
+                        top: targetSection.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+            
+            // Update active nav dot based on scroll position
+            function updateActiveNavDot() {
+                const scrollPosition = window.scrollY + window.innerHeight / 2;
                 
-                recognition.onend = function() {
-                    isListening = false;
-                    listeningIndicator.style.display = 'none';
-                    micButton.style.backgroundColor = '';
-                };
-                
-                recognition.onresult = function(event) {
-                    const transcript = event.results[0][0].transcript.trim().toLowerCase();
-                    englishInput.value = transcript;
+                sections.forEach((section, index) => {
+                    const sectionTop = section.offsetTop;
+                    const sectionBottom = sectionTop + section.offsetHeight;
                     
-                    // Automáticamente verificar la respuesta después de obtener el resultado
-                    setTimeout(checkAnswer, 500);
-                };
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                        navDots.forEach(dot => dot.classList.remove('active'));
+                        navDots[index].classList.add('active');
+                    }
+                });
+            }
+            
+            // Text selection functionality
+            document.addEventListener('mouseup', function(e) {
+                const selection = window.getSelection();
+                const selectedText = selection.toString().trim();
                 
-                recognition.onerror = function(event) {
-                    console.error('Error en reconocimiento de voz:', event.error);
-                    isListening = false;
-                    listeningIndicator.style.display = 'none';
-                    micButton.style.backgroundColor = '';
+                if (selectedText.length > 0) {
+                    const range = selection.getRangeAt(0);
+                    const rect = range.getBoundingClientRect();
                     
-                    feedbackElement.style.display = 'block';
-                    feedbackElement.className = 'feedback incorrect';
-                    feedbackElement.innerHTML = "No se pudo reconocer tu voz. Intenta de nuevo o usa el modo texto.";
-                };
-                
-                return true;
-            } else {
-                alert('Lo sentimos, tu navegador no soporta reconocimiento de voz. Puedes usar el modo texto.');
-                voiceModeBtn.disabled = true;
-                return false;return false;
-            }
-        }
-        
-        // Función para iniciar/detener el reconocimiento de voz
-        function toggleSpeechRecognition() {
-            if (!recognition) {
-                initSpeechRecognition();
-                return;
-            }
-            
-            if (isListening) {
-                recognition.stop();
-            } else {
-                recognition.start();
-            }
-        }
-        
-        // Función para mostrar una nueva frase
-        function showNewPhrase() {
-            if (currentIndex >= phrases.length) {
-                showCompletionAnimation();
-                return;
-            }
-            
-            currentPhrase = phrases[currentIndex];
-            spanishPhraseElement.textContent = currentPhrase.spanish;
-            phraseEmojiElement.textContent = currentPhrase.emoji;
-            englishInput.value = '';
-            
-            // Actualizar progreso
-            updateProgress();
-            
-            // Ocultar botón siguiente y feedback
-            nextButton.style.display = 'none';
-            feedbackElement.style.display = 'none';
-            
-            // Enfocar el input (excepto en modo voz)
-            if (!isVoiceMode) {
-                englishInput.focus();
-            }
-            
-            // Escuchar automáticamente en modo voz
-            if (isVoiceMode && recognition) {
-                setTimeout(() => {
-                    toggleSpeechRecognition();
-                }, 1000);
-            }
-        }
-        
-        // Función para verificar la respuesta
-        function checkAnswer() {
-            if (englishInput.value.trim() === '') {
-                feedbackElement.style.display = 'block';
-                feedbackElement.className = 'feedback incorrect';
-                feedbackElement.innerHTML = 'Por favor, ingresa una respuesta.';
-                return;
-            }
-            
-            totalAttempted++;
-            const userAnswer = englishInput.value.trim().toLowerCase();
-            const correctAnswer = currentPhrase.english.toLowerCase();
-            
-            // Verificar si la respuesta es correcta (con cierta flexibilidad)
-            // Permitimos pequeños errores como puntuación, mayúsculas, etc.
-            const isCorrect = isAnswerCorrect(userAnswer, correctAnswer);
-            
-            feedbackElement.style.display = 'block';
-            
-            if (isCorrect) {
-                correctAnswers++;
-                currentStreak++;
-                if (currentStreak > bestStreak) {
-                    bestStreak = currentStreak;
+                    selectionActions.style.top = `${rect.bottom + window.scrollY + 10}px`;
+                    selectionActions.style.left = `${rect.left + window.scrollX + (rect.width / 2) - 75}px`;
+                    selectionActions.classList.add('visible');
+                    
+                    // Store selected text as data attribute
+                    listenBtn.setAttribute('data-text', selectedText);
+                    translateBtn.setAttribute('data-text', selectedText);
+                } else {
+                    selectionActions.classList.remove('visible');
                 }
+            });
+            
+            // Listen button click
+            listenBtn.addEventListener('click', function() {
+                const text = this.getAttribute('data-text');
+                speakText(text);
+                selectionActions.classList.remove('visible');
+            });
+            
+            // Translate button click
+            translateBtn.addEventListener('click', function() {
+                const text = this.getAttribute('data-text');
+                // Simulated translation
+                const translations = {
+                    'en': {
+                        'beautifully': 'hermosamente',
+                        'nearby': 'cerca',
+                        'tomorrow': 'mañana',
+                        'very': 'muy',
+                        'too': 'demasiado',
+                        'incredibly': 'increíblemente',
+                        'quite': 'bastante',
+                        'intensifiers': 'intensificadores',
+                        'degree adverbs': 'adverbios de grado',
+                        'meaning': 'significado',
+                        'clarity': 'claridad',
+                        'emphasis': 'énfasis'
+                    },
+                    'es': {
+                        'hermosamente': 'beautifully',
+                        'cerca': 'nearby',
+                        'mañana': 'tomorrow',
+                        'muy': 'very',
+                        'demasiado': 'too',
+                        'increíblemente': 'incredibly',
+                        'bastante': 'quite',
+                        'intensificadores': 'intensifiers',
+                        'adverbios de grado': 'degree adverbs',
+                        'significado': 'meaning',
+                        'claridad': 'clarity',
+                        'énfasis': 'emphasis'
+                    }
+                };
                 
-                // Actualizar el contador de racha
-                streakCount.textContent = currentStreak;
+                // Get the translation or use the original text if no translation exists
+                const targetLang = currentLanguage === 'en' ? 'es' : 'en';
+                const translationDict = translations[currentLanguage];
+                const translatedText = translationDict[text.toLowerCase()] || text;
                 
-                feedbackElement.className = 'feedback correct';
-                feedbackElement.innerHTML = '¡Correcto! 🎉';
+                // Create a translation popup
+                const translationPopup = document.createElement('div');
+                translationPopup.style.position = 'fixed';
+                translationPopup.style.top = `${selectionActions.offsetTop - 50}px`;
+                translationPopup.style.left = `${selectionActions.offsetLeft}px`;
+                translationPopup.style.backgroundColor = 'rgba(44, 54, 63, 0.95)';
+                translationPopup.style.color = 'white';
+                translationPopup.style.padding = '10px 15px';
+                translationPopup.style.borderRadius = '8px';
+                translationPopup.style.zIndex = '200';
+                translationPopup.style.boxShadow = '0 5px 15px rgba(0,0,0,0.2)';
+                translationPopup.style.transition = 'opacity 0.3s, transform 0.3s';
+                translationPopup.style.opacity = '0';
+                translationPopup.style.transform = 'translateY(10px)';
                 
-                // Mostrar botón para siguiente pregunta
-                nextButton.style.display = 'flex';
-                checkButton.style.display = 'none';
-                
-                // Mostrar confeti para celebrar
-                createConfetti(5);
-            } else {
-                // Reiniciar racha si hay error
-                currentStreak = 0;
-                streakCount.textContent = 0;
-                
-                feedbackElement.className = 'feedback incorrect';
-                feedbackElement.innerHTML = `
-                    INCORRECTO, SIGUE TU PUEDES.
+                translationPopup.innerHTML = `
+                    <div style="font-weight: bold; font-size: 0.8rem; margin-bottom: 5px">${currentLanguage === 'en' ? 'Spanish' : 'English'}</div>
+                    <div>${translatedText}</div>
+                    <button style="background: none; border: none; color: var(--accent-color); font-size: 0.8rem; cursor: pointer; margin-top: 5px; padding: 0;">Listen</button>
                 `;
                 
-                // Mostrar botón para siguiente pregunta
-                nextButton.style.display = 'flex';
-                checkButton.style.display = 'none';
-            }
-        }
-        
-        // Función para comparar respuestas con cierta flexibilidad
-        function isAnswerCorrect(userAnswer, correctAnswer) {
-            // Eliminar puntuación y espacios extra
-            const cleanUserAnswer = userAnswer.replace(/[.,!?]/g, '').replace(/\s+/g, ' ').trim();
-            const cleanCorrectAnswer = correctAnswer.replace(/[.,!?]/g, '').replace(/\s+/g, ' ').trim();
-            
-            // Verificar coincidencia exacta
-            if (cleanUserAnswer === cleanCorrectAnswer) {
-                return true;
-            }
-            
-            // Verificar si es muy similar (para tolerar pequeños errores)
-            const similarity = calculateSimilarity(cleanUserAnswer, cleanCorrectAnswer);
-            return similarity > 0.85; // 85% de similitud es aceptable
-        }
-        
-        // Función para calcular similitud entre dos textos
-        function calculateSimilarity(s1, s2) {
-            // Implementación simple de distancia de Levenshtein
-            const track = Array(s2.length + 1).fill(null).map(() => 
-                Array(s1.length + 1).fill(null));
+                document.body.appendChild(translationPopup);
                 
-            for (let i = 0; i <= s1.length; i++) {
-                track[0][i] = i;
-            }
-            
-            for (let j = 0; j <= s2.length; j++) {
-                track[j][0] = j;
-            }
-            
-            for (let j = 1; j <= s2.length; j++) {
-                for (let i = 1; i <= s1.length; i++) {
-                    const cost = s1[i - 1] === s2[j - 1] ? 0 : 1;
-                    track[j][i] = Math.min(
-                        track[j][i - 1] + 1,
-                        track[j - 1][i] + 1,
-                        track[j - 1][i - 1] + cost
-                    );
-                }
-            }
-            
-            const distance = track[s2.length][s1.length];
-            const maxLength = Math.max(s1.length, s2.length);
-            
-            return 1 - distance / maxLength;
-        }
-        
-        // Obtener mensaje de ánimo aleatorio
-        function getRandomEncouragement() {
-            const randomIndex = Math.floor(Math.random() * encouragements.length);
-            return encouragements[randomIndex];
-        }
-        
-        // Función para actualizar la barra de progreso
-        function updateProgress() {
-            const percentage = (currentIndex / phrases.length) * 100;
-            progressBar.style.width = percentage + '%';
-            progressCounter.textContent = `${currentIndex}/${phrases.length}`;
-        }
-        
-        // Mostrar animación de completado
-        function showCompletionAnimation() {
-            const accuracy = totalAttempted > 0 ? Math.round((correctAnswers / totalAttempted) * 100) : 0;
-            
-            // Actualizar elementos de estadísticas
-            correctCountElement.textContent = correctAnswers;
-            accuracyPercentageElement.textContent = accuracy + '%';
-            finalStreakElement.textContent = bestStreak;
-            
-            // Mostrar animación
-            completionAnimation.classList.add('active');
-        }
-        
-        // Reiniciar el juego
-        function restartGame() {
-            // Reiniciar variables
-            currentIndex = 0;
-            correctAnswers = 0;
-            currentStreak = 0;
-            totalAttempted = 0;
-            
-            // Actualizar elementos
-            streakCount.textContent = 0;
-            
-            // Ocultar animación de completado
-            completionAnimation.classList.remove('active');
-            
-            // Barajar frases para orden aleatorio
-            shufflePhrases();
-            
-            // Mostrar nueva frase
-            showNewPhrase();
-        }
-        
-        // Función para crear efecto de confeti
-        function createConfetti(count) {
-            for (let i = 0; i < count; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.left = Math.random() * 100 + '%';
-                confetti.style.backgroundColor = getRandomColor();
-                confetti.style.width = Math.floor(Math.random() * 8 + 5) + 'px';
-                confetti.style.height = Math.floor(Math.random() * 8 + 5) + 'px';
-                document.body.appendChild(confetti);
-                
-                // Eliminar confeti después de la animación
+                // Animate in
                 setTimeout(() => {
-                    document.body.removeChild(confetti);
-                }, 3000);
-            }
-        }
-        
-        // Obtener color aleatorio
-        function getRandomColor() {
-            const colors = ['#FF5F6D', '#FFC371', '#6A11CB', '#2575FC', '#00C9A7', '#FFD166'];
-            return colors[Math.floor(Math.random() * colors.length)];
-        }
-        
-        // Función para barajar frases
-        function shufflePhrases() {
-            for (let i = phrases.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [phrases[i], phrases[j]] = [phrases[j], phrases[i]];
-            }
-        }
-        
-        // Cambiar modo (texto o voz)
-        function setVoiceMode(enabled) {
-            isVoiceMode = enabled;
-            
-            if (enabled) {
-                if (!initSpeechRecognition()) {
-                    return; // Si no se pudo inicializar, salir
-                }
+                    translationPopup.style.opacity = '1';
+                    translationPopup.style.transform = 'translateY(0)';
+                }, 10);
                 
-                voiceModeBtn.classList.add('active');
-                textModeBtn.classList.remove('active');
-                inputLabel.textContent = 'Di la traducción:';
-                englishInput.placeholder = 'Presiona el micrófono para hablar';
-                micButton.style.display = 'flex';
-            } else {
-                voiceModeBtn.classList.remove('active');
-                textModeBtn.classList.add('active');
-                inputLabel.textContent = 'Traduce al inglés:';
-                englishInput.placeholder = 'Escribe la traducción aquí';
-                micButton.style.display = 'none';
+                // Add listen functionality
+                const listenTranslationBtn = translationPopup.querySelector('button');
+                listenTranslationBtn.addEventListener('click', function() {
+                    speakText(translatedText, targetLang);
+                });
                 
-                // Detener reconocimiento si está activo
-                if (isListening && recognition) {
-                    recognition.stop();
-                }
-            }
-        }
-        
-        // Event Listeners
-        document.addEventListener('DOMContentLoaded', function() {
-            // Inicializar
-            shufflePhrases();
-            showNewPhrase();
-            
-            // Botón para comprobar respuesta
-            checkButton.addEventListener('click', checkAnswer);
-            
-            // Botón para siguiente frase
-            nextButton.addEventListener('click', function() {
-                currentIndex++;
-                showNewPhrase();
-                checkButton.style.display = 'flex';
+                // Hide selection actions
+                selectionActions.classList.remove('visible');
+                
+                // Remove after a delay
+                setTimeout(() => {
+                    translationPopup.style.opacity = '0';
+                    translationPopup.style.transform = 'translateY(10px)';
+                    setTimeout(() => {
+                        document.body.removeChild(translationPopup);
+                    }, 300);
+                }, 5000);
             });
             
-            // Comprobar al presionar Enter
-            englishInput.addEventListener('keyup', function(event) {
-                if (event.key === 'Enter') {
-                    if (nextButton.style.display === 'flex') {
-                        // Si el botón siguiente está visible, ir a la siguiente frase
-                        nextButton.click();
-                    } else {
-                        // Si no, comprobar respuesta
-                        checkAnswer();
+            // Highlight hover functionality
+            highlightElements.forEach(function(el) {
+                el.addEventListener('mouseover', function(e) {
+                    const rect = e.target.getBoundingClientRect();
+                    tooltip.style.top = `${rect.top - 30}px`;
+                    tooltip.style.left = `${rect.left + (rect.width / 2) - 75}px`;
+                    tooltip.style.display = 'block';
+                });
+                
+                el.addEventListener('mouseout', function() {
+                    tooltip.style.display = 'none';
+                });
+                
+                el.addEventListener('click', function() {
+                    const text = this.getAttribute('data-text');
+                    speakText(text);
+                    
+                    // Add ripple effect
+                    const ripple = document.createElement('span');
+                    ripple.style.position = 'absolute';
+                    ripple.style.backgroundColor = 'rgba(237, 106, 90, 0.3)';
+                    ripple.style.borderRadius = '50%';
+                    ripple.style.width = '50px';
+                    ripple.style.height = '50px';
+                    ripple.style.top = `${event.clientY - 25}px`;
+                    ripple.style.left = `${event.clientX - 25}px`;
+                    ripple.style.transform = 'scale(0)';
+                    ripple.style.transition = 'transform 0.5s';
+                    
+                    document.body.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.style.transform = 'scale(4)';
+                        ripple.style.opacity = '0';
+                    }, 10);
+                    
+                    setTimeout(() => {
+                        document.body.removeChild(ripple);
+                    }, 500);
+                });
+            });
+            
+            // Language switcher
+            const flags = document.querySelectorAll('.flag');
+            flags.forEach(flag => {
+                flag.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    currentLanguage = lang;
+                    
+                    // Update active flag
+                    flags.forEach(f => f.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // TODO: In a real app, we would translate content here
+                });
+            });
+            
+            // Speak text function with language support
+            function speakText(text, lang = currentLanguage) {
+                if (synth.speaking) {
+                    synth.cancel();
+                }
+                
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = lang === 'en' ? 'en-US' : 'es-ES';
+                utterance.rate = 0.9;
+                utterance.pitch = 1;
+                synth.speak(utterance);
+            }
+            
+            // Hide tooltip and actions when clicking elsewhere
+            document.addEventListener('mousedown', function(e) {
+                if (!e.target.classList.contains('highlight') && 
+                    !e.target.closest('#selection-actions')) {
+                    tooltip.style.display = 'none';
+                    selectionActions.classList.remove('visible');
+                }
+            });
+            
+            // Create floating particles
+            function createFloatingParticles() {
+                const particlesCount = 15;
+                
+                for (let i = 0; i < particlesCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('floating-particle');
+                    
+                    // Random size
+                    const size = Math.random() * 20 + 10;
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    
+                    // Random position
+                    particle.style.left = `${Math.random() * 100}vw`;
+                    particle.style.top = `${Math.random() * 100}vh`;
+                    
+                    // Random animation delay
+                    particle.style.animationDelay = `${Math.random() * 5}s`;
+                    
+                    document.body.appendChild(particle);
+                }
+            }
+            
+            // Animate sections on scroll
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
                     }
-                }
-            });
+                });
+            }, observerOptions);
             
-            // Botón para reiniciar
-            restartButton.addEventListener('click', restartGame);
-            
-            // Botón de micrófono
-            micButton.addEventListener('click', toggleSpeechRecognition);
-            
-            // Botones de modo
-            textModeBtn.addEventListener('click', function() {
-                setVoiceMode(false);
-            });
-            
-            voiceModeBtn.addEventListener('click', function() {
-                setVoiceMode(true);
+            sections.forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(50px)';
+                section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(section);
             });
         });
     </script>
