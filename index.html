@@ -320,6 +320,38 @@
             transform: scale(1.3);
         }
         
+        /* New styles for speech rate controls */
+        .speech-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: white;
+            padding: 10px 15px;
+            border-radius: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+        }
+        
+        .speech-controls label {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: var(--dark-color);
+        }
+        
+        .speech-controls input {
+            width: 150px;
+        }
+        
+        .speech-controls .rate-value {
+            min-width: 30px;
+            text-align: center;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
         @media (max-width: 768px) {
             .header h1 {
                 font-size: 2rem;
@@ -327,6 +359,16 @@
             
             .section {
                 padding: 20px;
+            }
+            
+            .speech-controls {
+                bottom: 10px;
+                right: 10px;
+                padding: 8px 12px;
+            }
+            
+            .speech-controls input {
+                width: 100px;
             }
         }
     </style>
@@ -337,6 +379,12 @@
     <div class="language-switcher">
         <img src="/api/placeholder/25/25" alt="English" class="flag active" data-lang="en">
         <img src="/api/placeholder/25/25" alt="Spanish" class="flag" data-lang="es">
+    </div>
+    
+    <div class="speech-controls">
+        <label for="speech-rate">Speed:</label>
+        <input type="range" id="speech-rate" min="0.5" max="2" step="0.1" value="1">
+        <span class="rate-value" id="rate-value">1.0x</span>
     </div>
     
     <div class="tooltip" id="tooltip">Click to hear pronunciation</div>
@@ -388,7 +436,7 @@
                     Example: My friends live <span class="highlight" data-text="nearby">nearby</span>
                 </div>
                 
-                <p>At the beginning of the sentence to emphasize the meaning.</p>
+                <p>At the <span class="highlight" data-text="beginning">beginning</span> of the sentence to emphasize the meaning.</p>
                 <div class="example">
                     Example: <span class="highlight" data-text="Tomorrow">Tomorrow</span> we will travel to the beach.
                 </div>
@@ -453,8 +501,18 @@
             const readingProgress = document.getElementById('reading-progress');
             const navDots = document.querySelectorAll('.nav-dot');
             const sections = document.querySelectorAll('.section');
+            const speechRateSlider = document.getElementById('speech-rate');
+            const rateValueDisplay = document.getElementById('rate-value');
+            
             let synth = window.speechSynthesis;
             let currentLanguage = 'en';
+            let currentSpeechRate = 1.0;
+            
+            // Update speech rate display and value when slider changes
+            speechRateSlider.addEventListener('input', function() {
+                currentSpeechRate = parseFloat(this.value);
+                rateValueDisplay.textContent = currentSpeechRate.toFixed(1) + 'x';
+            });
             
             // Create floating particles
             createFloatingParticles();
@@ -542,7 +600,8 @@
                         'degree adverbs': 'adverbios de grado',
                         'meaning': 'significado',
                         'clarity': 'claridad',
-                        'emphasis': 'énfasis'
+                        'emphasis': 'énfasis',
+                        'beginning': 'principio'
                     },
                     'es': {
                         'hermosamente': 'beautifully',
@@ -556,7 +615,8 @@
                         'adverbios de grado': 'degree adverbs',
                         'significado': 'meaning',
                         'claridad': 'clarity',
-                        'énfasis': 'emphasis'
+                        'énfasis': 'emphasis',
+                        'principio': 'beginning'
                     }
                 };
                 
@@ -670,7 +730,7 @@
                 });
             });
             
-            // Speak text function with language support
+            // Speak text function with language support and rate control
             function speakText(text, lang = currentLanguage) {
                 if (synth.speaking) {
                     synth.cancel();
@@ -678,7 +738,7 @@
                 
                 const utterance = new SpeechSynthesisUtterance(text);
                 utterance.lang = lang === 'en' ? 'en-US' : 'es-ES';
-                utterance.rate = 0.9;
+                utterance.rate = currentSpeechRate;
                 utterance.pitch = 1;
                 synth.speak(utterance);
             }
@@ -715,29 +775,111 @@
                     document.body.appendChild(particle);
                 }
             }
+// Function to handle browser resize and update elements accordingly
+            function handleResize() {
+                // Recalculate positions for tooltips, selection actions, etc.
+                updateActiveNavDot();
+            }
             
-            // Animate sections on scroll
+            // Create observation functionality to observe section visibility
             const observerOptions = {
                 root: null,
                 rootMargin: '0px',
-                threshold: 0.1
+                threshold: 0.5
             };
             
-            const observer = new IntersectionObserver((entries) => {
+            const sectionObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
+                        const sectionId = entry.target.getAttribute('data-section');
+                        
+                        // Update navigation dots
+                        navDots.forEach(dot => {
+                            if (dot.getAttribute('data-section') === sectionId) {
+                                dot.classList.add('active');
+                            } else {
+                                dot.classList.remove('active');
+                            }
+                        });
+                        
+                        // Animate section when it becomes visible
                         entry.target.style.opacity = '1';
                         entry.target.style.transform = 'translateY(0)';
                     }
                 });
             }, observerOptions);
             
+            // Observe all sections
             sections.forEach(section => {
-                section.style.opacity = '0';
-                section.style.transform = 'translateY(50px)';
-                section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                observer.observe(section);
+                // Set initial state
+                section.style.opacity = '0.7';
+                section.style.transform = 'translateY(20px)';
+                section.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                
+                // Start observing
+                sectionObserver.observe(section);
             });
+            
+            // Add window event listeners
+            window.addEventListener('resize', handleResize);
+            
+            // Accessibility improvements
+            highlightElements.forEach(el => {
+                el.setAttribute('role', 'button');
+                el.setAttribute('aria-label', `Pronounce ${el.getAttribute('data-text')}`);
+                el.setAttribute('tabindex', '0');
+                
+                // Support keyboard interaction
+                el.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        const text = this.getAttribute('data-text');
+                        speakText(text);
+                    }
+                });
+            });
+            
+            // Preload any necessary resources
+            function preloadResources() {
+                // This would preload audio files, icons, or other resources
+                // For this demo, we'll just simulate preloading
+                console.log('Resources preloaded');
+            }
+            
+            // Handle any errors that might occur
+            function handleError(error) {
+                console.error('An error occurred:', error);
+                // Display user-friendly error message if needed
+            }
+            
+            // Initialize the page
+            function initialize() {
+                try {
+                    preloadResources();
+                    updateActiveNavDot();
+                    
+                    // Check if speech synthesis is available
+                    if (!('speechSynthesis' in window)) {
+                        console.warn('Speech synthesis not supported');
+                        // Disable speech features or show alternative
+                    }
+                    
+                    // Add initial animation to sections
+                    sections.forEach((section, index) => {
+                        setTimeout(() => {
+                            section.style.opacity = '1';
+                            section.style.transform = 'translateY(0)';
+                        }, 100 * index);
+                    });
+                    
+                    console.log('Interactive adverbs page initialized');
+                } catch (error) {
+                    handleError(error);
+                }
+            }
+            
+            // Run initialization
+            initialize();
         });
     </script>
 </body>
