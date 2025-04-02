@@ -1,886 +1,1960 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Position of Adverbs in a Sentence</title>
+    <title>Aventura del Saber - Juego Educativo 2° Primaria</title>
     <style>
-        :root {
-            --primary-color: #6a8d73;
-            --secondary-color: #f4e9cd;
-            --accent-color: #ed6a5a;
-            --dark-color: #2c363f;
-            --light-color: #f8f8f8;
+        /* ESTILOS GENERALES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--light-color);
-            color: var(--dark-color);
+            background: linear-gradient(135deg, #c2e9fb 0%, #a1c4fd 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             overflow-x: hidden;
         }
         
-        .container {
+        .game-container {
+            width: 95%;
             max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* ANIMACIONES GENERALES */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
         }
         
-        .header {
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(-50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -468px 0; }
+            100% { background-position: 468px 0; }
+        }
+
+        /* PANTALLA DE INICIO */
+        .start-screen {
+            background: linear-gradient(45deg, #ffafbd, #ffc3a0);
             text-align: center;
             padding: 40px 20px;
-            background: linear-gradient(135deg, var(--primary-color), #8cb369);
-            color: white;
-            border-radius: 15px;
-            margin-bottom: 40px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            position: relative;
-            overflow: hidden;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            animation: fadeIn 1s ease-in-out;
         }
         
-        .header h1 {
-            margin: 0;
-            font-size: 2.8rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-            position: relative;
-            z-index: 2;
+        .start-screen h1 {
+            color: #6a11cb;
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 5px rgba(0,0,0,0.2);
         }
         
-        .header::before {
-            content: "";
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 10%, transparent 60%);
-            transform: rotate(30deg);
-            z-index: 1;
+        .character-selection {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
         }
         
-        .section {
+        .character-card {
             background-color: white;
             border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 40px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s ease;
-            transform-origin: center;
-            border-left: 5px solid var(--primary-color);
-        }
-        
-        .section:hover {
-            transform: translateY(-8px) scale(1.01);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-        }
-        
-        .section h2 {
-            color: var(--primary-color);
-            margin-top: 0;
-            padding-bottom: 15px;
-            margin-bottom: 25px;
-            border-bottom: 2px dashed var(--secondary-color);
-            display: flex;
-            align-items: center;
-        }
-        
-        .example {
-            background-color: var(--secondary-color);
-            padding: 18px 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border-left: 5px solid var(--accent-color);
-            transition: transform 0.3s;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-            position: relative;
-        }
-        
-        .example:hover {
-            transform: translateX(10px);
-        }
-        
-        .highlight {
-            color: var(--accent-color);
-            font-weight: bold;
+            padding: 15px;
+            width: 150px;
             cursor: pointer;
-            position: relative;
-            padding: 2px 4px;
-            border-radius: 4px;
-            transition: all 0.2s;
-            text-decoration: underline;
-            text-decoration-style: wavy;
-            text-decoration-color: var(--accent-color);
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
         }
         
-        .highlight:hover {
-            background-color: var(--accent-color);
-            color: white;
-            text-decoration: none;
+        .character-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 20px rgba(0,0,0,0.2);
         }
         
-        .circle-decoration {
-            position: absolute;
-            border-radius: 50%;
-            background-color: var(--primary-color);
-            opacity: 0.15;
-            z-index: 0;
-            transition: all 0.6s ease-in-out;
+        .character-card.selected {
+            border: 4px solid #4CAF50;
+            transform: scale(1.05);
         }
         
-        .section:hover .circle-decoration {
-            transform: scale(1.1) translateY(-10px);
+        .character-image {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+            animation: float 3s ease-in-out infinite;
         }
         
-        .circle-1 {
-            width: 120px;
-            height: 120px;
-            top: -40px;
-            left: -40px;
-        }
-        
-        .circle-2 {
-            width: 80px;
-            height: 80px;
-            bottom: 30px;
-            right: 30px;
-        }
-        
-        .section-content {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .selection-actions {
-            position: absolute;
-            background-color: var(--dark-color);
-            color: white;
-            border-radius: 8px;
-            padding: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            z-index: 100;
-            display: flex;
-            gap: 10px;
-            opacity: 0;
-            transform: translateY(10px);
-            pointer-events: none;
-            transition: all 0.2s ease-out;
-        }
-        
-        .selection-actions.visible {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: all;
-        }
-        
-        .action-button {
-            background-color: rgba(255,255,255,0.2);
+        .start-button {
+            background: linear-gradient(45deg, #11998e, #38ef7d);
             color: white;
             border: none;
-            border-radius: 5px;
-            padding: 6px 10px;
-            font-size: 14px;
+            border-radius: 50px;
+            padding: 15px 40px;
+            font-size: 24px;
+            font-weight: bold;
             cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(56, 239, 125, 0.4);
+            margin-top: 30px;
+            animation: pulse 2s infinite;
+        }
+        
+        .start-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 7px 20px rgba(56, 239, 125, 0.6);
+        }
+
+        /* ÁREA DE JUEGO PRINCIPAL */
+        .game-area {
+            padding: 30px;
+            min-height: 600px;
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .game-header h2 {
+            color: #6a11cb;
+            font-size: 32px;
+            animation: slideIn 0.5s ease-in-out;
+        }
+        
+        .player-info {
             display: flex;
             align-items: center;
-            gap: 5px;
-            transition: background-color 0.2s;
+            gap: 15px;
         }
         
-        .action-button:hover {
-            background-color: rgba(255,255,255,0.3);
-        }
-        
-        .tooltip {
-            position: fixed;
-            background-color: var(--dark-color);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 14px;
-            display: none;
-            z-index: 100;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-        
-        .section-number {
-            display: inline-flex;
-            background-color: var(--primary-color);
-            color: white;
-            width: 45px;
-            height: 45px;
-            justify-content: center;
-            align-items: center;
+        .player-avatar {
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
-            margin-right: 15px;
-            font-weight: bold;
-            font-size: 1.2rem;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+            border: 3px solid #6a11cb;
+            animation: float 3s ease-in-out infinite;
         }
         
-        .language-switcher {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            background-color: white;
-            border-radius: 30px;
+        .player-stats {
+            background-color: #f0f9ff;
             padding: 10px 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            border-radius: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .star-points {
+            display: flex;
+            align-items: center;
+            color: #ff9800;
+            font-weight: bold;
+            font-size: 18px;
+            gap: 5px;
+        }
+        
+        .star-icon {
+            font-size: 20px;
+            animation: rotate 3s linear infinite;
+        }
+        
+        .progress-container {
+            margin: 20px 0;
+            background-color: #e9ecef;
+            border-radius: 10px;
+            height: 25px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(45deg, #11998e, #38ef7d);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-bar::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+                rgba(255,255,255,0) 0%, 
+                rgba(255,255,255,0.4) 50%, 
+                rgba(255,255,255,0) 100%);
+            animation: shimmer 2s infinite;
+            background-size: 150% 100%;
+        }
+        
+        .level-indicator {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 10px;
+        }
+        
+        /* ÁREA DE PREGUNTAS */
+        .question-container {
+            background-color: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .question-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 7px;
+            background: linear-gradient(90deg, #ff9966, #ff5e62);
+        }
+        
+        .question-text {
+            font-size: 24px;
+            color: #212529;
+            margin-bottom: 20px;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .question-image {
+            display: block;
+            max-width: 250px;
+            margin: 20px auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .option-button {
+            background-color: #fff;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            padding: 15px 20px;
+            font-size: 18px;
+            color: #495057;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 70px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        
+        .option-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-color: #adb5bd;
+        }
+        
+        .option-button.correct {
+            background-color: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+            animation: pulse 0.5s ease-in-out;
+        }
+        
+        .option-button.incorrect {
+            background-color: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+        
+        /* PANTALLA DE FEEDBACK */
+        .feedback {
+            text-align: center;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .feedback.correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 2px solid #28a745;
+        }
+        
+        .feedback.incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 2px solid #dc3545;
+        }
+        
+        .explanation {
+            font-size: 16px;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        
+        .next-button {
+            background: linear-gradient(45deg, #007bff, #6610f2);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-top: 20px;
+            animation: pulse 2s infinite;
+        }
+        
+        .next-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 7px 20px rgba(0,0,0,0.15);
+        }
+        
+        /* PANTALLA DE NIVEL COMPLETADO */
+        .level-complete {
+            text-align: center;
+            padding: 30px;
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .level-complete h2 {
+            color: #6a11cb;
+            font-size: 36px;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        
+        .celebration {
+            font-size: 50px;
+            margin: 20px 0;
+            animation: bounce 2s infinite;
+        }
+        
+        .stats-container {
+            background-color: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 400px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding: 5px 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+        
+        .award-icon {
+            font-size: 40px;
+            margin: 20px 0;
+            animation: rotate 5s linear infinite;
+        }
+        
+        .continue-button {
+            background: linear-gradient(45deg, #ff9966, #ff5e62);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 15px 40px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            margin-top: 20px;
+        }
+        
+        .continue-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 7px 20px rgba(0,0,0,0.3);
+        }
+        
+        /* PANTALLA DE JUEGO COMPLETADO */
+        .game-complete {
+            text-align: center;
+            padding: 30px;
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .game-complete h1 {
+            color: #6a11cb;
+            font-size: 42px;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 5px rgba(0,0,0,0.2);
+            animation: pulse 2s infinite;
+        }
+        
+        .trophy {
+            font-size: 80px;
+            margin: 30px 0;
+            animation: bounce 2s infinite;
+            color: #ffc107;
+        }
+        
+        .final-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+        }
+        
+        .stat-box {
+            background-color: #f8f9fa;
+            border-radius: 15px;
+            padding: 15px;
+            width: 150px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .stat-box h3 {
+            color: #6c757d;
+            margin-bottom: 10px;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #212529;
+        }
+        
+        .certificate {
+            background-color: #fff;
+            border: 5px solid #ffc107;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 30px auto;
+            max-width: 500px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            position: relative;
+        }
+        
+        .certificate::before {
+            content: "";
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 2px dashed #ffc107;
+            border-radius: 10px;
+            pointer-events: none;
+        }
+        
+        .certificate h2 {
+            color: #6a11cb;
+            margin-bottom: 15px;
+        }
+        
+        .certificate p {
+            margin: 10px 0;
+        }
+        
+        .certificate-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #212529;
+            margin: 15px 0;
+        }
+        
+        .restart-button {
+            background: linear-gradient(45deg, #11998e, #38ef7d);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 15px 40px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(56, 239, 125, 0.4);
+            margin-top: 30px;
+        }
+        
+        .restart-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 7px 20px rgba(56, 239, 125, 0.6);
+        }
+        
+        /* MINIJUEGOS */
+        .minigame-container {
+            padding: 20px;
+            text-align: center;
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .minigame-container h2 {
+            color: #6a11cb;
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .math-tiles {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 10px;
+            margin: 20px auto;
+            max-width: 500px;
+        }
+        
+        .math-tile {
+            background-color: #fff;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            padding: 15px 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        
+        .math-tile:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .math-tile.selected {
+            background-color: #cce5ff;
+            border-color: #007bff;
+        }
+        
+        .word-scramble {
+            margin: 20px auto;
+            max-width: 500px;
+        }
+        
+        .scrambled-letters {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .letter-tile {
+            width: 40px;
+            height: 40px;
+            background-color: #fff;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        
+        .letter-tile:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .letter-tile.selected {
+            background-color: #cce5ff;
+            border-color: #007bff;
+        }
+        
+        .answer-word {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin: 20px 0;
+        }
+        
+        .answer-slot {
+            width: 40px;
+            height: 40px;
+            background-color: #f8f9fa;
+            border: 2px dashed #adb5bd;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .memory-game {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 10px;
+            margin: 20px auto;
+            max-width: 500px;
+        }
+        
+        .memory-card {
+            height: 80px;
+            background-color: #7952b3;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            transform-style: preserve-3d;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .memory-card.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .memory-card-front, .memory-card-back {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            backface-visibility: hidden;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .memory-card-front {
+            background-color: #7952b3;
+            transform: rotateY(0deg);
+        }
+        
+        .memory-card-back {
+            background-color: #fff;
+            transform: rotateY(180deg);
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        /* ESTILOS RESPONSIVOS */
+        @media (max-width: 768px) {
+            .game-container {
+                width: 95%;
+                margin: 20px auto;
+            }
+            
+            .start-screen h1, .game-complete h1 {
+                font-size: 36px;
+            }
+            
+            .character-selection {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .final-stats {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+            
+            .stat-box {
+                width: 80%;
+            }
+            
+            .math-tiles {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .memory-game {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        /* ANIMACIONES ADICIONALES PARA TRANSICIONES */
+        .slide-out {
+            animation: slideOut 0.5s forwards;
+        }
+        
+        @keyframes slideOut {
+            to { transform: translateX(50px); opacity: 0; }
+        }
+        
+        .pop-in {
+            animation: popIn 0.5s forwards;
+        }
+        
+        @keyframes popIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            80% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        /* EFECTOS DE SONIDO Y MÚSICA */
+        .sound-controls {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 100;
             display: flex;
             gap: 10px;
-            align-items: center;
         }
         
-        .flag {
-            width: 25px;
-            height: 25px;
+        .sound-button {
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.7);
+            border: none;
             cursor: pointer;
-            filter: grayscale(70%);
-            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: all 0.3s ease;
         }
         
-        .flag:hover, .flag.active {
-            filter: grayscale(0%);
+        .sound-button:hover {
+            background-color: rgba(255, 255, 255, 1);
             transform: scale(1.1);
         }
         
-        .floating-particle {
-            position: absolute;
-            background-color: var(--primary-color);
-            opacity: 0.15;
-            border-radius: 50%;
-            pointer-events: none;
-            animation: float 6s infinite ease-in-out;
-        }
-        
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
-        }
-        
-        .footer {
-            text-align: center;
-            padding: 30px 0;
-            color: var(--dark-color);
-            font-size: 0.9rem;
-            opacity: 0.7;
-        }
-        
-        .reading-progress {
+        /* LOADER Y ANIMACIONES DE CARGA */
+        .loader {
             position: fixed;
             top: 0;
             left: 0;
-            width: 0%;
-            height: 5px;
-            background: linear-gradient(to right, var(--accent-color), var(--primary-color));
-            z-index: 1000;
-            transition: width 0.1s;
-        }
-        
-        .example::before {
-            content: "Example";
-            position: absolute;
-            top: -12px;
-            left: 20px;
-            background-color: var(--accent-color);
-            color: white;
-            padding: 2px 10px;
-            border-radius: 10px;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-        
-        .navigation-dots {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin-bottom: 30px;
-        }
-        
-        .nav-dot {
-            width: 12px;
-            height: 12px;
-            background-color: var(--secondary-color);
-            border-radius: 50%;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-        
-        .nav-dot.active {
-            background-color: var(--primary-color);
-            transform: scale(1.3);
-        }
-        
-        /* New styles for speech rate controls */
-        .speech-controls {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: white;
-            padding: 10px 15px;
-            border-radius: 30px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-            display: flex;
             align-items: center;
-            gap: 10px;
             z-index: 1000;
         }
         
-        .speech-controls label {
-            font-size: 0.9rem;
-            font-weight: bold;
-            color: var(--dark-color);
+        .loader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            animation: rotate 1s linear infinite;
         }
         
-        .speech-controls input {
-            width: 150px;
+        /* TOOLTIP Y AYUDAS */
+        .tooltip {
+            position: relative;
+            display: inline-block;
         }
         
-        .speech-controls .rate-value {
-            min-width: 30px;
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 120px;
+            background-color: #555;
+            color: #fff;
             text-align: center;
-            font-weight: bold;
-            color: var(--primary-color);
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
         }
         
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2rem;
-            }
-            
-            .section {
-                padding: 20px;
-            }
-            
-            .speech-controls {
-                bottom: 10px;
-                right: 10px;
-                padding: 8px 12px;
-            }
-            
-            .speech-controls input {
-                width: 100px;
-            }
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        /* DECORACIÓN Y ELEMENTOS LÚDICOS */
+        .floating-bubbles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -1;
+        }
+        
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.3);
+            animation: float-up 10s linear infinite;
+        }
+        
+        @keyframes float-up {
+            0% { transform: translateY(100%) scale(0); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: translateY(-100vh) scale(1); opacity: 0; }
+        }
+        
+        /* ELEMENTOS ADICIONALES DE JUEGO */
+        .timer {
+            background-color: #f8f9fa;
+            border-radius: 15px;
+            padding: 10px 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #495057;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            margin-bottom: 15px;
+        }
+        
+        .timer-icon {
+            font-size: 20px;
+            color: #dc3545;
+        }
+        
+        .hint-button {
+            background-color: #ffc107;
+            color: #212529;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .hint-button:hover {
+            background-color: #e0a800;
+            transform: translateY(-3px);
+        }
+        
+        .lifeline-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 15px 0;
+        }
+        
+        .lifeline {
+            width: 30px;
+            height: 30px;
+            background-color: #ff6b6b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .lifeline.used {
+            background-color: #adb5bd;
+            opacity: 0.5;
         }
     </style>
 </head>
 <body>
-    <div class="reading-progress" id="reading-progress"></div>
-    
-    <div class="language-switcher">
-        <img src="/api/placeholder/25/25" alt="English" class="flag active" data-lang="en">
-        <img src="/api/placeholder/25/25" alt="Spanish" class="flag" data-lang="es">
+    <!-- LOADER (PANTALLA DE CARGA) -->
+    <div class="loader" id="loader">
+        <div class="loader-spinner"></div>
     </div>
     
-    <div class="speech-controls">
-        <label for="speech-rate">Speed:</label>
-        <input type="range" id="speech-rate" min="0.5" max="2" step="0.1" value="1">
-        <span class="rate-value" id="rate-value">1.0x</span>
-    </div>
-    
-    <div class="tooltip" id="tooltip">Click to hear pronunciation</div>
-    <div class="selection-actions" id="selection-actions">
-        <button class="action-button" id="listen-btn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
-                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
-                <line x1="12" y1="19" x2="12" y2="23"></line>
-                <line x1="8" y1="23" x2="16" y2="23"></line>
-            </svg>
-            Listen
-        </button>
-        <button class="action-button" id="translate-btn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M5 8l5 5 5-5"></path>
-                <path d="M12 13V3"></path>
-                <path d="M3 17h12a4 4 0 0 0 4-4V3"></path>
-                <path d="M18 21l5-5-5-5"></path>
-            </svg>
-            Translate
-        </button>
-    </div>
-    
-    <div class="container">
-        <div class="header">
-            <h1>Position of Adverbs in a Sentence and Why?</h1>
+    <!-- CONTENEDOR PRINCIPAL DEL JUEGO -->
+    <div class="game-container" id="game-container">
+        <!-- CONTROLES DE SONIDO -->
+        <div class="sound-controls">
+            <button class="sound-button" id="music-toggle">🎵</button>
+            <button class="sound-button" id="sound-toggle">🔊</button>
         </div>
         
-        <div class="navigation-dots">
-            <div class="nav-dot active" data-section="1"></div>
-            <div class="nav-dot" data-section="2"></div>
-            <div class="nav-dot" data-section="3"></div>
-            <div class="nav-dot" data-section="4"></div>
+        <!-- PANTALLA DE INICIO -->
+        <div class="start-screen" id="start-screen">
+            <h1>Aventura del Saber</h1>
+            <p>¡Un emocionante viaje de aprendizaje para niños de segundo grado!</p>
+            
+            <div class="character-selection">
+                <div class="character-card" data-character="boy" onclick="selectCharacter('boy')">
+                    <img src="/api/placeholder/100/100" alt="Niño" class="character-image">
+                    <h3>Lucas</h3>
+                </div>
+               <div class="character-card" data-character="girl" onclick="selectCharacter('girl')">
+                    <img src="/api/placeholder/100/100" alt="Niña" class="character-image">
+                    <h3>Sofía</h3>
+                </div>
+            </div>
+            
+            <input type="text" id="player-name" placeholder="Escribe tu nombre aquí" class="player-name-input">
+            <button class="start-button" id="start-button" onclick="startGame()">¡Comenzar Aventura!</button>
         </div>
         
-        <div class="section" id="section-1" data-section="1">
-            <div class="circle-decoration circle-1"></div>
-            <div class="circle-decoration circle-2"></div>
-            <div class="section-content">
-                <h2><span class="section-number">1</span>Adverbs that modify verbs</h2>
-                <p>They usually come after the verb or before the adjective or adverb they modify.</p>
-                <div class="example">
-                    Example: She sings <span class="highlight" data-text="beautifully">beautifully</span>
+        <!-- ÁREA DE JUEGO PRINCIPAL -->
+        <div class="game-area" id="game-area">
+            <div class="game-header">
+                <h2 id="level-title">Nivel 1: Matemáticas Básicas</h2>
+                <div class="player-info">
+                    <img src="/api/placeholder/60/60" alt="Avatar" class="player-avatar" id="player-avatar">
+                    <div class="player-stats">
+                        <div class="star-points">
+                            <span class="star-icon">⭐</span>
+                            <span id="points-display">0</span> puntos
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="level-indicator">Nivel <span id="current-level">1</span> de <span id="total-levels">5</span></div>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+            </div>
+            
+            <div class="lifeline-container">
+                <div class="lifeline" id="lifeline-1">❤️</div>
+                <div class="lifeline" id="lifeline-2">❤️</div>
+                <div class="lifeline" id="lifeline-3">❤️</div>
+            </div>
+            
+            <div class="timer">
+                <span class="timer-icon">⏱️</span>
+                <span id="time-display">30</span>
+            </div>
+            
+            <div class="question-container" id="question-container">
+                <div class="question-text" id="question-text">¿Cuánto es 2 + 3?</div>
+                <img src="/api/placeholder/250/150" alt="Imagen de pregunta" class="question-image" id="question-image">
+                
+                <div class="options-grid" id="options-grid">
+                    <button class="option-button" onclick="checkAnswer(1)">4</button>
+                    <button class="option-button" onclick="checkAnswer(2)">5</button>
+                    <button class="option-button" onclick="checkAnswer(3)">6</button>
+                    <button class="option-button" onclick="checkAnswer(4)">7</button>
                 </div>
                 
-                <p>If the verb is used in a compound form, the adverb is placed after the auxiliary or before the main verb.</p>
-                <div class="example">
-                    Example: My friends live <span class="highlight" data-text="nearby">nearby</span>
+                <button class="hint-button" id="hint-button" onclick="showHint()">
+                    <span>🔍</span> Pista
+                </button>
+            </div>
+            
+            <div class="feedback" id="feedback">
+                <div id="feedback-text">¡Respuesta correcta!</div>
+                <div class="explanation" id="explanation">
+                    2 + 3 = 5. ¡Excelente trabajo sumando!
                 </div>
-                
-                <p>At the <span class="highlight" data-text="beginning">beginning</span> of the sentence to emphasize the meaning.</p>
-                <div class="example">
-                    Example: <span class="highlight" data-text="Tomorrow">Tomorrow</span> we will travel to the beach.
-                </div>
+                <button class="next-button" id="next-button" onclick="nextQuestion()">Siguiente Pregunta</button>
             </div>
         </div>
         
-        <div class="section" id="section-2" data-section="2">
-            <div class="circle-decoration circle-1"></div>
-            <div class="circle-decoration circle-2"></div>
-            <div class="section-content">
-                <h2><span class="section-number">2</span>Adverbs that modify adjectives or adverbs</h2>
-                <p>Adverbs that modify adjectives or other adverbs are called <span class="highlight" data-text="intensifiers">intensifiers</span> or <span class="highlight" data-text="degree adverbs">degree adverbs</span> because they describe the intensity, degree, or extent of the word they modify.</p>
+        <!-- PANTALLA DE MINIJUEGOS -->
+        <div class="minigame-container" id="minigame-math">
+            <h2>¡Minijuego de Matemáticas!</h2>
+            <p>Empareja los números con sus resultados</p>
+            
+            <div class="math-tiles" id="math-tiles">
+                <!-- Tiles se generarán dinámicamente -->
             </div>
+            
+            <button class="next-button" id="minigame-next" onclick="completeMiniGame()">Continuar</button>
         </div>
         
-        <div class="section" id="section-3" data-section="3">
-            <div class="circle-decoration circle-1"></div>
-            <div class="circle-decoration circle-2"></div>
-            <div class="section-content">
-                <h2><span class="section-number">3</span>How They Work?</h2>
-                <p><strong>Modifying adjectives:</strong> They alter the intensity of an adjective.</p>
-                <div class="example">
-                    She is <span class="highlight" data-text="very">very</span> tall. (Modifies the adjective tall by increasing intensity.)
-                </div>
-                <div class="example">
-                    The food was <span class="highlight" data-text="too">too</span> spicy. (Modifies spicy to indicate excess.)
+        <div class="minigame-container" id="minigame-words">
+            <h2>¡Juego de Palabras!</h2>
+            <p>Ordena las letras para formar la palabra correcta</p>
+            
+            <div class="word-scramble">
+                <div class="scrambled-letters" id="scrambled-letters">
+                    <!-- Letras se generarán dinámicamente -->
                 </div>
                 
-                <p><strong>Modifying adverbs:</strong> They adjust the degree of another adverb.</p>
-                <div class="example">
-                    She ran <span class="highlight" data-text="incredibly">incredibly</span> fast. (Modifies fast by showing a high degree.)
+                <div class="answer-word" id="answer-word">
+                    <!-- Espacios de respuesta se generarán dinámicamente -->
                 </div>
-                <div class="example">
-                    He speaks <span class="highlight" data-text="quite">quite</span> clearly. (Modifies clearly by adding nuance.)
-                </div>
+            </div>
+            
+            <button class="next-button" id="word-next" onclick="checkWordAnswer()">Comprobar</button>
+        </div>
+        
+        <div class="minigame-container" id="minigame-memory">
+            <h2>¡Juego de Memoria!</h2>
+            <p>Encuentra los pares de conceptos relacionados</p>
+            
+            <div class="memory-game" id="memory-game">
+                <!-- Tarjetas se generarán dinámicamente -->
             </div>
         </div>
         
-        <div class="section" id="section-4" data-section="4">
-            <div class="circle-decoration circle-1"></div>
-            <div class="circle-decoration circle-2"></div>
-            <div class="section-content">
-                <h2><span class="section-number">4</span>Why is the position of adverbs important?</h2>
-                <p>The position of adverbs in a sentence is important because it affects <span class="highlight" data-text="meaning">meaning</span>, <span class="highlight" data-text="clarity">clarity</span>, and <span class="highlight" data-text="emphasis">emphasis</span>. Adverbs modify verbs, adjectives, other adverbs, or entire sentences, and their placement can change the interpretation of a sentence.</p>
-                
-                <p>The position of adverbs is essential for ensuring clarity, precision, and coherence in a sentence. Their placement can change the meaning of a message, so it is important to follow the positioning rules according to the type of adverb. Proper usage enhances communication and avoids ambiguities in language.</p>
+        <!-- PANTALLA DE NIVEL COMPLETADO -->
+        <div class="level-complete" id="level-complete">
+            <h2>¡Nivel Completado!</h2>
+            <div class="celebration">🎉</div>
+            
+            <div class="stats-container">
+                <div class="stat-item">
+                    <span>Respuestas Correctas:</span>
+                    <span id="correct-answers">8/10</span>
+                </div>
+                <div class="stat-item">
+                    <span>Puntos Obtenidos:</span>
+                    <span id="level-points">240</span>
+                </div>
+                <div class="stat-item">
+                    <span>Tiempo Total:</span>
+                    <span id="level-time">3:45</span>
+                </div>
             </div>
+            
+            <div class="award-icon">🏆</div>
+            
+            <button class="continue-button" id="continue-button" onclick="nextLevel()">Continuar al Siguiente Nivel</button>
         </div>
         
-        <div class="footer">
-            <p>© 2025 Interactive English Grammar Guide | Learn more about adverbs and their usage</p>
+        <!-- PANTALLA DE JUEGO COMPLETADO -->
+        <div class="game-complete" id="game-complete">
+            <h1>¡Felicitaciones!</h1>
+            <p>Has completado todos los niveles de la Aventura del Saber</p>
+            
+            <div class="trophy">🏆</div>
+            
+            <div class="final-stats">
+                <div class="stat-box">
+                    <h3>Puntuación</h3>
+                    <div class="stat-value" id="final-score">1250</div>
+                </div>
+                <div class="stat-box">
+                    <h3>Aciertos</h3>
+                    <div class="stat-value" id="final-correct">42/50</div>
+                </div>
+                <div class="stat-box">
+                    <h3>Niveles</h3>
+                    <div class="stat-value" id="final-levels">5/5</div>
+                </div>
+            </div>
+            
+            <div class="certificate">
+                <h2>Certificado de Logro</h2>
+                <p>Este certificado se otorga a:</p>
+                <div class="certificate-name" id="certificate-name">Nombre del Estudiante</div>
+                <p>Por completar con éxito la Aventura del Saber</p>
+                <p>Fecha: <span id="certificate-date">2 de Abril de 2025</span></p>
+            </div>
+            
+            <button class="restart-button" onclick="restartGame()">Jugar de Nuevo</button>
+        </div>
+        
+        <!-- ELEMENTOS DECORATIVOS -->
+        <div class="floating-bubbles" id="bubbles">
+            <!-- Burbujas se generarán dinámicamente -->
         </div>
     </div>
     
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const tooltip = document.getElementById('tooltip');
-            const highlightElements = document.querySelectorAll('.highlight');
-            const selectionActions = document.getElementById('selection-actions');
-            const listenBtn = document.getElementById('listen-btn');
-            const translateBtn = document.getElementById('translate-btn');
-            const readingProgress = document.getElementById('reading-progress');
-            const navDots = document.querySelectorAll('.nav-dot');
-            const sections = document.querySelectorAll('.section');
-            const speechRateSlider = document.getElementById('speech-rate');
-            const rateValueDisplay = document.getElementById('rate-value');
-            
-            let synth = window.speechSynthesis;
-            let currentLanguage = 'en';
-            let currentSpeechRate = 1.0;
-            
-            // Update speech rate display and value when slider changes
-            speechRateSlider.addEventListener('input', function() {
-                currentSpeechRate = parseFloat(this.value);
-                rateValueDisplay.textContent = currentSpeechRate.toFixed(1) + 'x';
-            });
-            
-            // Create floating particles
-            createFloatingParticles();
-            
-            // Reading progress
-            window.addEventListener('scroll', function() {
-                const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-                const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                const scrollPercentage = (scrollTop / scrollHeight) * 100;
-                readingProgress.style.width = scrollPercentage + '%';
-                
-                // Update active nav dot based on scroll position
-                updateActiveNavDot();
-            });
-            
-            // Scroll to section when clicking nav dot
-            navDots.forEach(dot => {
-                dot.addEventListener('click', function() {
-                    const sectionNumber = this.getAttribute('data-section');
-                    const targetSection = document.getElementById('section-' + sectionNumber);
-                    window.scrollTo({
-                        top: targetSection.offsetTop - 100,
-                        behavior: 'smooth'
-                    });
-                });
-            });
-            
-            // Update active nav dot based on scroll position
-            function updateActiveNavDot() {
-                const scrollPosition = window.scrollY + window.innerHeight / 2;
-                
-                sections.forEach((section, index) => {
-                    const sectionTop = section.offsetTop;
-                    const sectionBottom = sectionTop + section.offsetHeight;
-                    
-                    if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
-                        navDots.forEach(dot => dot.classList.remove('active'));
-                        navDots[index].classList.add('active');
-                    }
-                });
-            }
-            
-            // Text selection functionality
-            document.addEventListener('mouseup', function(e) {
-                const selection = window.getSelection();
-                const selectedText = selection.toString().trim();
-                
-                if (selectedText.length > 0) {
-                    const range = selection.getRangeAt(0);
-                    const rect = range.getBoundingClientRect();
-                    
-                    selectionActions.style.top = `${rect.bottom + window.scrollY + 10}px`;
-                    selectionActions.style.left = `${rect.left + window.scrollX + (rect.width / 2) - 75}px`;
-                    selectionActions.classList.add('visible');
-                    
-                    // Store selected text as data attribute
-                    listenBtn.setAttribute('data-text', selectedText);
-                    translateBtn.setAttribute('data-text', selectedText);
-                } else {
-                    selectionActions.classList.remove('visible');
-                }
-            });
-            
-            // Listen button click
-            listenBtn.addEventListener('click', function() {
-                const text = this.getAttribute('data-text');
-                speakText(text);
-                selectionActions.classList.remove('visible');
-            });
-            
-            // Translate button click
-            translateBtn.addEventListener('click', function() {
-                const text = this.getAttribute('data-text');
-                // Simulated translation
-                const translations = {
-                    'en': {
-                        'beautifully': 'hermosamente',
-                        'nearby': 'cerca',
-                        'tomorrow': 'mañana',
-                        'very': 'muy',
-                        'too': 'demasiado',
-                        'incredibly': 'increíblemente',
-                        'quite': 'bastante',
-                        'intensifiers': 'intensificadores',
-                        'degree adverbs': 'adverbios de grado',
-                        'meaning': 'significado',
-                        'clarity': 'claridad',
-                        'emphasis': 'énfasis',
-                        'beginning': 'principio'
+        // Variables globales del juego
+        let playerName = "";
+        let playerCharacter = "";
+        let currentLevel = 1;
+        let currentQuestion = 0;
+        let score = 0;
+        let correctAnswers = 0;
+        let totalQuestions = 10;
+        let remainingLifelines = 3;
+        let timer;
+        let timeRemaining = 30;
+        let musicOn = true;
+        let soundOn = true;
+        
+        // Datos de preguntas (simulado)
+        const gameLevels = [
+            {
+                title: "Nivel 1: Matemáticas Básicas",
+                questions: [
+                    {
+                        question: "¿Cuánto es 2 + 3?",
+                        options: ["4", "5", "6", "7"],
+                        correctAnswer: 1,
+                        explanation: "2 + 3 = 5. ¡Excelente trabajo sumando!",
+                        image: "/api/placeholder/250/150"
                     },
-                    'es': {
-                        'hermosamente': 'beautifully',
-                        'cerca': 'nearby',
-                        'mañana': 'tomorrow',
-                        'muy': 'very',
-                        'demasiado': 'too',
-                        'increíblemente': 'incredibly',
-                        'bastante': 'quite',
-                        'intensificadores': 'intensifiers',
-                        'adverbios de grado': 'degree adverbs',
-                        'significado': 'meaning',
-                        'claridad': 'clarity',
-                        'énfasis': 'emphasis',
-                        'principio': 'beginning'
+                    {
+                        question: "¿Cuánto es 10 - 4?",
+                        options: ["4", "5", "6", "7"],
+                        correctAnswer: 2,
+                        explanation: "10 - 4 = 6. ¡Muy bien restando!",
+                        image: "/api/placeholder/250/150"
+                    },
+                    // Más preguntas para el nivel 1...
+                ]
+            },
+            {
+                title: "Nivel 2: Lectura y Comprensión",
+                questions: [
+                    {
+                        question: "¿Qué letra falta en la palabra 'C_sa'?",
+                        options: ["a", "e", "i", "o"],
+                        correctAnswer: 0,
+                        explanation: "La palabra correcta es 'Casa'.",
+                        image: "/api/placeholder/250/150"
+                    },
+                    // Más preguntas para el nivel 2...
+                ]
+            },
+            // Más niveles...
+        ];
+        
+        // Funciones del juego
+        function selectCharacter(character) {
+            playerCharacter = character;
+            document.querySelectorAll('.character-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            document.querySelector(`.character-card[data-character="${character}"]`).classList.add('selected');
+        }
+        
+        function startGame() {
+            playerName = document.getElementById('player-name').value || "Aventurero";
+            if (!playerCharacter) {
+                alert("¡Por favor selecciona un personaje!");
+                return;
+            }
+            
+            // Actualizar interfaz
+            document.getElementById('start-screen').style.display = 'none';
+            document.getElementById('game-area').style.display = 'block';
+            document.getElementById('player-avatar').src = playerCharacter === 'boy' ? 
+                "/api/placeholder/60/60" : "/api/placeholder/60/60";
+            
+            // Configurar nivel
+            loadLevel(currentLevel);
+            loadQuestion(currentQuestion);
+            document.getElementById('feedback').style.display = 'none';
+            
+            // Iniciar temporizador
+            startTimer();
+            
+            // Crear burbujas decorativas
+            createBubbles();
+        }
+        
+        function loadLevel(level) {
+            if (level > gameLevels.length) {
+                completeGame();
+                return;
+            }
+            
+            currentLevel = level;
+            currentQuestion = 0;
+            correctAnswers = 0;
+            
+            document.getElementById('level-title').textContent = gameLevels[level-1].title;
+            document.getElementById('current-level').textContent = level;
+            document.getElementById('total-levels').textContent = gameLevels.length;
+            updateProgressBar();
+        }
+        
+        function loadQuestion(questionIndex) {
+            const levelData = gameLevels[currentLevel-1];
+            if (questionIndex >= levelData.questions.length) {
+                completeLevel();
+                return;
+            }
+            
+            const question = levelData.questions[questionIndex];
+            document.getElementById('question-text').textContent = question.question;
+            document.getElementById('question-image').src = question.image;
+            
+            // Cargar opciones
+            const optionsGrid = document.getElementById('options-grid');
+            optionsGrid.innerHTML = '';
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'option-button';
+                button.textContent = option;
+                button.onclick = () => checkAnswer(index);
+                optionsGrid.appendChild(button);
+            });
+            
+            // Reiniciar temporizador
+            resetTimer();
+        }
+        
+        function checkAnswer(selectedIndex) {
+            clearInterval(timer);
+            const levelData = gameLevels[currentLevel-1];
+            const question = levelData.questions[currentQuestion];
+            
+            const feedback = document.getElementById('feedback');
+            const feedbackText = document.getElementById('feedback-text');
+            const explanation = document.getElementById('explanation');
+            
+            // Verificar respuesta
+            if (selectedIndex === question.correctAnswer) {
+                // Respuesta correcta
+                feedbackText.textContent = "¡Respuesta correcta!";
+                feedback.className = "feedback correct";
+                explanation.textContent = question.explanation;
+                
+                // Actualizar puntuación
+                score += 10 + timeRemaining;
+                document.getElementById('points-display').textContent = score;
+                correctAnswers++;
+            } else {
+                // Respuesta incorrecta
+                feedbackText.textContent = "Respuesta incorrecta";
+                feedback.className = "feedback incorrect";
+                explanation.textContent = question.explanation;
+                
+                // Reducir vidas
+                remainingLifelines--;
+                if (remainingLifelines >= 0) {
+                    document.getElementById(`lifeline-${remainingLifelines+1}`).classList.add('used');
+                }
+                
+                // Verificar si se acabaron las vidas
+                if (remainingLifelines <= 0) {
+                    // Game over
+                    setTimeout(() => {
+                        alert("¡Se acabaron tus vidas! Inténtalo de nuevo.");
+                        restartGame();
+                    }, 2000);
+                    return;
+                }
+            }
+            
+            // Mostrar retroalimentación
+            feedback.style.display = 'block';
+            document.getElementById('question-container').style.display = 'none';
+        }
+        
+        function nextQuestion() {
+            currentQuestion++;
+            document.getElementById('feedback').style.display = 'none';
+            document.getElementById('question-container').style.display = 'block';
+            loadQuestion(currentQuestion);
+            updateProgressBar();
+        }
+        
+        function updateProgressBar() {
+            const levelData = gameLevels[currentLevel-1];
+            const progress = (currentQuestion / levelData.questions.length) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+        }
+        
+        function completeLevel() {
+            document.getElementById('game-area').style.display = 'none';
+            document.getElementById('level-complete').style.display = 'block';
+            
+            const levelData = gameLevels[currentLevel-1];
+            document.getElementById('correct-answers').textContent = `${correctAnswers}/${levelData.questions.length}`;
+            document.getElementById('level-points').textContent = score;
+            
+            // Si es un nivel par, mostrar minijuego
+            if (currentLevel % 2 === 0) {
+                setTimeout(() => {
+                    document.getElementById('level-complete').style.display = 'none';
+                    showMiniGame();
+                }, 3000);
+            }
+        }
+        
+        function nextLevel() {
+            document.getElementById('level-complete').style.display = 'none';
+            currentLevel++;
+            loadLevel(currentLevel);
+            document.getElementById('game-area').style.display = 'block';
+        }
+        
+        function completeGame() {
+            document.getElementById('game-area').style.display = 'none';
+            document.getElementById('game-complete').style.display = 'block';
+            
+            // Actualizar estadísticas finales
+            document.getElementById('final-score').textContent = score;
+            document.getElementById('final-correct').textContent = `${correctAnswers}/${totalQuestions}`;
+            document.getElementById('final-levels').textContent = `${currentLevel-1}/${gameLevels.length}`;
+            document.getElementById('certificate-name').textContent = playerName;
+            
+            const today = new Date();
+            document.getElementById('certificate-date').textContent = today.toLocaleDateString('es-ES');
+        }
+        
+        function restartGame() {
+            // Reiniciar variables
+            currentLevel = 1;
+            currentQuestion = 0;
+            score = 0;
+            correctAnswers = 0;
+            remainingLifelines = 3;
+            
+            // Reiniciar interfaz
+            document.getElementById('game-complete').style.display = 'none';
+            document.getElementById('start-screen').style.display = 'block';
+            document.getElementById('points-display').textContent = '0';
+            
+            // Reiniciar vidas
+            for (let i = 1; i <= 3; i++) {
+                document.getElementById(`lifeline-${i}`).classList.remove('used');
+            }
+        }
+        
+        function startTimer() {
+            timeRemaining = 30;
+            document.getElementById('time-display').textContent = timeRemaining;
+            
+            timer = setInterval(() => {
+                timeRemaining--;
+                document.getElementById('time-display').textContent = timeRemaining;
+                
+                if (timeRemaining <= 0) {
+                    clearInterval(timer);
+                    // Tiempo agotado, contar como respuesta incorrecta
+                    checkAnswer(-1);
+                }
+            }, 1000);
+        }
+        
+        function resetTimer() {
+            clearInterval(timer);
+            startTimer();
+        }
+        
+        function showHint() {
+            const levelData = gameLevels[currentLevel-1];
+            const question = levelData.questions[currentQuestion];
+            
+            // Eliminar una opción incorrecta aleatoria
+            const options = document.querySelectorAll('.option-button');
+            const incorrectOptions = [];
+            
+            options.forEach((option, index) => {
+                if (index !== question.correctAnswer) {
+                    incorrectOptions.push(option);
+                }
+            });
+            
+            const randomIncorrect = Math.floor(Math.random() * incorrectOptions.length);
+            incorrectOptions[randomIncorrect].style.opacity = '0.3';
+            incorrectOptions[randomIncorrect].disabled = true;
+            
+            // Deshabilitar botón de pista
+            document.getElementById('hint-button').disabled = true;
+            document.getElementById('hint-button').style.opacity = '0.5';
+        }
+        
+        function showMiniGame() {
+            // Seleccionar minijuego aleatorio
+            const miniGames = ['minigame-math', 'minigame-words', 'minigame-memory'];
+            const randomGame = miniGames[Math.floor(Math.random() * miniGames.length)];
+            
+            document.getElementById(randomGame).style.display = 'block';
+            
+            // Configurar minijuego
+            if (randomGame === 'minigame-math') {
+                setupMathGame();
+            } else if (randomGame === 'minigame-words') {
+                setupWordGame();
+            } else {
+                setupMemoryGame();
+            }
+        }
+        
+        function setupMathGame() {
+            const mathTiles = document.getElementById('math-tiles');
+            mathTiles.innerHTML = '';
+            
+            // Crear pares de operaciones y resultados
+            const pairs = [
+                { op: "2 + 3", result: "5" },
+                { op: "7 - 2", result: "5" },
+                { op: "4 + 4", result: "8" },
+                { op: "10 - 5", result: "5" },
+                { op: "3 × 2", result: "6" },
+                { op: "8 ÷ 2", result: "4" },
+                { op: "1 + 1", result: "2" },
+                { op: "9 - 4", result: "5" }
+            ];
+            
+            // Mezclar pares
+            for (let i = 0; i < pairs.length; i++) {
+                // Crear tile para operación
+                const opTile = document.createElement('div');
+                opTile.className = 'math-tile';
+                opTile.textContent = pairs[i].op;
+                opTile.dataset.pair = i;
+                opTile.onclick = () => selectMathTile(opTile);
+                mathTiles.appendChild(opTile);
+                
+                // Crear tile para resultado
+                const resultTile = document.createElement('div');
+                resultTile.className = 'math-tile';
+                resultTile.textContent = pairs[i].result;
+                resultTile.dataset.pair = i;
+                resultTile.onclick = () => selectMathTile(resultTile);
+                mathTiles.appendChild(resultTile);
+            }
+            
+            // Mezclar tiles
+            const tiles = mathTiles.children;
+            for (let i = tiles.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                mathTiles.appendChild(tiles[j].cloneNode(true));
+                mathTiles.removeChild(tiles[j]);
+            }
+        }
+        
+        let selectedTile = null;
+        function selectMathTile(tile) {
+            if (tile.classList.contains('matched')) return;
+            
+            if (!selectedTile) {
+                // Primera selección
+                selectedTile = tile;
+                tile.classList.add('selected');
+            } else {
+                // Segunda selección
+                if (selectedTile.dataset.pair === tile.dataset.pair && selectedTile !== tile) {
+                    // Coincidencia
+                    selectedTile.classList.remove('selected');
+                    selectedTile.classList.add('matched');
+                    tile.classList.add('matched');
+                    
+                    // Verificar si se completó el juego
+                    const remainingTiles = document.querySelectorAll('.math-tile:not(.matched)');
+                    if (remainingTiles.length === 0) {
+                        document.getElementById('minigame-next').style.display = 'block';
                     }
-                };
-                
-                // Get the translation or use the original text if no translation exists
-                const targetLang = currentLanguage === 'en' ? 'es' : 'en';
-                const translationDict = translations[currentLanguage];
-                const translatedText = translationDict[text.toLowerCase()] || text;
-                
-                // Create a translation popup
-                const translationPopup = document.createElement('div');
-                translationPopup.style.position = 'fixed';
-                translationPopup.style.top = `${selectionActions.offsetTop - 50}px`;
-                translationPopup.style.left = `${selectionActions.offsetLeft}px`;
-                translationPopup.style.backgroundColor = 'rgba(44, 54, 63, 0.95)';
-                translationPopup.style.color = 'white';
-                translationPopup.style.padding = '10px 15px';
-                translationPopup.style.borderRadius = '8px';
-                translationPopup.style.zIndex = '200';
-                translationPopup.style.boxShadow = '0 5px 15px rgba(0,0,0,0.2)';
-                translationPopup.style.transition = 'opacity 0.3s, transform 0.3s';
-                translationPopup.style.opacity = '0';
-                translationPopup.style.transform = 'translateY(10px)';
-                
-                translationPopup.innerHTML = `
-                    <div style="font-weight: bold; font-size: 0.8rem; margin-bottom: 5px">${currentLanguage === 'en' ? 'Spanish' : 'English'}</div>
-                    <div>${translatedText}</div>
-                    <button style="background: none; border: none; color: var(--accent-color); font-size: 0.8rem; cursor: pointer; margin-top: 5px; padding: 0;">Listen</button>
-                `;
-                
-                document.body.appendChild(translationPopup);
-                
-                // Animate in
-                setTimeout(() => {
-                    translationPopup.style.opacity = '1';
-                    translationPopup.style.transform = 'translateY(0)';
-                }, 10);
-                
-                // Add listen functionality
-                const listenTranslationBtn = translationPopup.querySelector('button');
-                listenTranslationBtn.addEventListener('click', function() {
-                    speakText(translatedText, targetLang);
-                });
-                
-                // Hide selection actions
-                selectionActions.classList.remove('visible');
-                
-                // Remove after a delay
-                setTimeout(() => {
-                    translationPopup.style.opacity = '0';
-                    translationPopup.style.transform = 'translateY(10px)';
+                } else {
+                    // No coinciden
+                    const prevSelected = selectedTile;
                     setTimeout(() => {
-                        document.body.removeChild(translationPopup);
-                    }, 300);
-                }, 5000);
-            });
-            
-            // Highlight hover functionality
-            highlightElements.forEach(function(el) {
-                el.addEventListener('mouseover', function(e) {
-                    const rect = e.target.getBoundingClientRect();
-                    tooltip.style.top = `${rect.top - 30}px`;
-                    tooltip.style.left = `${rect.left + (rect.width / 2) - 75}px`;
-                    tooltip.style.display = 'block';
-                });
-                
-                el.addEventListener('mouseout', function() {
-                    tooltip.style.display = 'none';
-                });
-                
-                el.addEventListener('click', function() {
-                    const text = this.getAttribute('data-text');
-                    speakText(text);
-                    
-                    // Add ripple effect
-                    const ripple = document.createElement('span');
-                    ripple.style.position = 'absolute';
-                    ripple.style.backgroundColor = 'rgba(237, 106, 90, 0.3)';
-                    ripple.style.borderRadius = '50%';
-                    ripple.style.width = '50px';
-                    ripple.style.height = '50px';
-                    ripple.style.top = `${event.clientY - 25}px`;
-                    ripple.style.left = `${event.clientX - 25}px`;
-                    ripple.style.transform = 'scale(0)';
-                    ripple.style.transition = 'transform 0.5s';
-                    
-                    document.body.appendChild(ripple);
-                    
-                    setTimeout(() => {
-                        ripple.style.transform = 'scale(4)';
-                        ripple.style.opacity = '0';
-                    }, 10);
-                    
-                    setTimeout(() => {
-                        document.body.removeChild(ripple);
+                        prevSelected.classList.remove('selected');
+                        tile.classList.remove('selected');
                     }, 500);
-                });
-            });
+                }
+                selectedTile = null;
+            }
+        }
+        
+        function setupWordGame() {
+            const words = ["CASA", "ÁRBOL", "PERRO", "NIÑO", "LIBRO", "JUEGO", "AGUA", "LÁPIZ"];
+            const randomWord = words[Math.floor(Math.random() * words.length)];
             
-            // Language switcher
-            const flags = document.querySelectorAll('.flag');
-            flags.forEach(flag => {
-                flag.addEventListener('click', function() {
-                    const lang = this.getAttribute('data-lang');
-                    currentLanguage = lang;
-                    
-                    // Update active flag
-                    flags.forEach(f => f.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // TODO: In a real app, we would translate content here
-                });
-            });
+            // Crear espacios para respuesta
+            const answerWord = document.getElementById('answer-word');
+            answerWord.innerHTML = '';
+            for (let i = 0; i < randomWord.length; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'answer-slot';
+                slot.dataset.index = i;
+                answerWord.appendChild(slot);
+            }
             
-            // Speak text function with language support and rate control
-            function speakText(text, lang = currentLanguage) {
-                if (synth.speaking) {
-                    synth.cancel();
+            // Mezclar letras
+            const scrambledLetters = document.getElementById('scrambled-letters');
+            scrambledLetters.innerHTML = '';
+            const letters = randomWord.split('');
+            for (let i = letters.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [letters[i], letters[j]] = [letters[j], letters[i]];
+            }
+            
+            // Mostrar letras mezcladas
+            letters.forEach((letter, index) => {
+                const tile = document.createElement('div');
+                tile.className = 'letter-tile';
+                tile.textContent = letter;
+                tile.dataset.letter = letter;
+                tile.onclick = () => selectLetter(tile);
+                scrambledLetters.appendChild(tile);
+            });
+        }
+        
+        function selectLetter(tile) {
+            if (tile.classList.contains('selected')) return;
+            
+            // Encontrar próximo espacio vacío
+            const emptySlot = document.querySelector('.answer-slot:empty');
+            if (emptySlot) {
+                emptySlot.textContent = tile.dataset.letter;
+                tile.classList.add('selected');
+                
+                // Verificar si se completó la palabra
+                const slots = document.querySelectorAll('.answer-slot');
+                let isFull = true;
+                for (let slot of slots) {
+                    if (!slot.textContent) {
+                        isFull = false;
+                        break;
+                    }
                 }
                 
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = lang === 'en' ? 'en-US' : 'es-ES';
-                utterance.rate = currentSpeechRate;
-                utterance.pitch = 1;
-                synth.speak(utterance);
-            }
-            
-            // Hide tooltip and actions when clicking elsewhere
-            document.addEventListener('mousedown', function(e) {
-                if (!e.target.classList.contains('highlight') && 
-                    !e.target.closest('#selection-actions')) {
-                    tooltip.style.display = 'none';
-                    selectionActions.classList.remove('visible');
+                if (isFull) {
+                    // Comprobar si es correcta
+                    checkWordAnswer();
                 }
+            }
+        }
+        
+        function checkWordAnswer() {
+            const slots = document.querySelectorAll('.answer-slot');
+            let word = '';
+            slots.forEach(slot => {
+                word += slot.textContent || '';
             });
             
-            // Create floating particles
-            function createFloatingParticles() {
-                const particlesCount = 15;
+            const words = ["CASA", "ÁRBOL", "PERRO", "NIÑO", "LIBRO", "JUEGO", "AGUA", "LÁPIZ"];
+            if (words.includes(word)) {
+                // Palabra correcta
+                document.getElementById('word-next').textContent = "¡Correcto! Continuar";
+                // Añadir puntos
+                score += 50;
+                document.getElementById('points-display').textContent = score;
                 
-                for (let i = 0; i < particlesCount; i++) {
-                    const particle = document.createElement('div');
-                    particle.classList.add('floating-particle');
+                // Continuar después de 2 segundos
+                setTimeout(completeMiniGame, 2000);
+            } else {
+                // Palabra incorrecta
+                // Sacudir animación
+                const answerWord = document.getElementById('answer-word');
+                answerWord.classList.add('shake');
+                setTimeout(() => {
+                    answerWord.classList.remove('shake');
                     
-                    // Random size
-                    const size = Math.random() * 20 + 10;
-                    particle.style.width = `${size}px`;
-                    particle.style.height = `${size}px`;
+                    // Limpiar respuesta
+                    slots.forEach(slot => {
+                        slot.textContent = '';
+                    });
                     
-                    // Random position
-                    particle.style.left = `${Math.random() * 100}vw`;
-                    particle.style.top = `${Math.random() * 100}vh`;
-                    
-                    // Random animation delay
-                    particle.style.animationDelay = `${Math.random() * 5}s`;
-                    
-                    document.body.appendChild(particle);
-                }
+                    // Resetear letras seleccionadas
+                    const letters = document.querySelectorAll('.letter-tile');
+                    letters.forEach(letter => {
+                        letter.classList.remove('selected');
+                    });
+                }, 500);
             }
-// Function to handle browser resize and update elements accordingly
-            function handleResize() {
-                // Recalculate positions for tooltips, selection actions, etc.
-                updateActiveNavDot();
+        }
+        
+        function setupMemoryGame() {
+            const memoryGame = document.getElementById('memory-game');
+            memoryGame.innerHTML = '';
+            
+            // Crear pares de coincidencias
+            const pairs = [
+                { item1: "2", item2: "DOS" },
+                { item1: "3", item2: "TRES" },
+                { item1: "4", item2: "CUATRO" },
+                { item1: "5", item2: "CINCO" },
+                { item1: "6", item2: "SEIS" },
+                { item1: "A", item2: "a" },
+            ];
+            
+            // Crear tarjetas
+            const cards = [];
+            pairs.forEach((pair, index) => {
+                // Tarjeta 1
+                const card1 = document.createElement('div');
+                card1.className = 'memory-card';
+                card1.dataset.pair = index;
+                card1.innerHTML = `
+                    <div class="memory-card-front"></div>
+                    <div class="memory-card-back">${pair.item1}</div>
+                `;
+                card1.onclick = () => flipCard(card1);
+                cards.push(card1);
+                
+                // Tarjeta 2
+                const card2 = document.createElement('div');
+                card2.className = 'memory-card';
+                card2.dataset.pair = index;
+                card2.innerHTML = `
+                    <div class="memory-card-front"></div>
+                    <div class="memory-card-back">${pair.item2}</div>
+                `;
+                card2.onclick = () => flipCard(card2);
+                cards.push(card2);
+            });
+            
+            // Mezclar tarjetas
+            for (let i = cards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [cards[i], cards[j]] = [cards[j], cards[i]];
             }
             
-            // Create observation functionality to observe section visibility
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.5
+            // Añadir tarjetas al juego
+            cards.forEach(card => {
+                memoryGame.appendChild(card);
+            });
+        }
+        
+        let firstCard = null;
+        let secondCard = null;
+        let lockBoard = false;
+        
+        function flipCard(card) {
+            if (lockBoard) return;
+            if (card === firstCard) return;
+            
+            card.classList.add('flipped');
+            
+            if (!firstCard) {
+                // Primera carta
+                firstCard = card;
+                return;
+            }
+            
+            // Segunda carta
+            secondCard = card;
+            checkForMatch();
+        }
+        
+        function checkForMatch() {
+            const isMatch = firstCard.dataset.pair === secondCard.dataset.pair;
+            
+            if (isMatch) {
+                disableCards();
+                
+                // Verificar si se completó el juego
+                const remainingCards = document.querySelectorAll('.memory-card:not(.flipped)');
+                if (remainingCards.length === 0) {
+                    // Juego completado
+                    setTimeout(completeMiniGame, 1000);
+                }
+            } else {
+                unflipCards();
+            }
+        }
+        
+        function disableCards() {
+            firstCard.removeEventListener('click', flipCard);
+            secondCard.removeEventListener('click', flipCard);
+            
+            resetBoard();
+        }
+        
+        function unflipCards() {
+            lockBoard = true;
+            
+            setTimeout(() => {
+                firstCard.classList.remove('flipped');
+                secondCard.classList.remove('flipped');
+                
+                resetBoard();
+            }, 1000);
+        }
+        
+        function resetBoard() {
+            [firstCard, secondCard] = [null, null];
+            lockBoard = false;
+        }
+        
+        function completeMiniGame() {
+            // Ocultar todos los minijuegos
+            document.getElementById('minigame-math').style.display = 'none';
+            document.getElementById('minigame-words').style.display = 'none';
+            document.getElementById('minigame-memory').style.display = 'none';
+            
+            // Continuar con el siguiente nivel
+            nextLevel();
+        }
+        
+        function createBubbles() {
+            const bubbles = document.getElementById('bubbles');
+            bubbles.innerHTML = '';
+            
+            for (let i = 0; i < 20; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                bubble.style.left = `${Math.random() * 100}%`;
+                bubble.style.width = `${Math.random() * 50 + 10}px`;
+                bubble.style.height = bubble.style.width;
+                bubble.style.animationDuration = `${Math.random() * 5 + 5}s`;
+               bubble.style.animationDelay = `${Math.random() * 2}s`;
+                bubbles.appendChild(bubble);
+            }
+        }
+        
+        function toggleMusic() {
+            musicOn = !musicOn;
+            const musicButton = document.getElementById('music-button');
+            if (musicOn) {
+                // Aquí se iniciaría la música si tuviéramos un elemento de audio
+                musicButton.innerHTML = '<span>🔊</span> Música';
+            } else {
+                // Aquí se pausaría la música
+                musicButton.innerHTML = '<span>🔇</span> Música';
+            }
+        }
+        
+        function toggleSound() {
+            soundOn = !soundOn;
+            const soundButton = document.getElementById('sound-button');
+            if (soundOn) {
+                soundButton.innerHTML = '<span>🔊</span> Sonidos';
+            } else {
+                soundButton.innerHTML = '<span>🔇</span> Sonidos';
+            }
+        }
+        
+        function playSound(soundType) {
+            if (!soundOn) return;
+            
+            // Aquí se reproduciría el sonido correspondiente
+            // Por ejemplo: const audio = new Audio(`sounds/${soundType}.mp3`);
+            // audio.play();
+        }
+        
+        // Función para abrir instrucciones
+        function showInstructions() {
+            const modal = document.getElementById('instructions-modal');
+            modal.style.display = 'flex';
+        }
+        
+        function closeInstructions() {
+            const modal = document.getElementById('instructions-modal');
+            modal.style.display = 'none';
+        }
+        
+        // Funciones para personalización
+        function openSettings() {
+            const settingsPanel = document.getElementById('settings-panel');
+            settingsPanel.style.display = 'block';
+        }
+        
+        function closeSettings() {
+            const settingsPanel = document.getElementById('settings-panel');
+            settingsPanel.style.display = 'none';
+        }
+        
+        function changeTheme(theme) {
+            const gameContainer = document.getElementById('game-container');
+            // Eliminar todas las clases de tema anteriores
+            gameContainer.classList.remove('theme-forest', 'theme-space', 'theme-ocean', 'theme-desert');
+            // Añadir el nuevo tema
+            gameContainer.classList.add(`theme-${theme}`);
+            
+            // Guardar preferencia de tema
+            localStorage.setItem('gameTheme', theme);
+        }
+        
+        function changeGameDifficulty(difficulty) {
+            // Implementar lógica para cambiar la dificultad
+            // Por ejemplo: ajustar tiempo de respuesta, número de opciones, etc.
+            if (difficulty === 'easy') {
+                timeRemaining = 45; // Más tiempo para responder
+            } else if (difficulty === 'normal') {
+                timeRemaining = 30; // Tiempo estándar
+            } else if (difficulty === 'hard') {
+                timeRemaining = 20; // Menos tiempo para responder
+            }
+            
+            // Guardar preferencia de dificultad
+            localStorage.setItem('gameDifficulty', difficulty);
+        }
+        
+        // Funciones para guardar y cargar progreso
+        function saveProgress() {
+            const gameProgress = {
+                playerName: playerName,
+                playerCharacter: playerCharacter,
+                currentLevel: currentLevel,
+                score: score,
+                remainingLifelines: remainingLifelines
             };
             
-            const sectionObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const sectionId = entry.target.getAttribute('data-section');
-                        
-                        // Update navigation dots
-                        navDots.forEach(dot => {
-                            if (dot.getAttribute('data-section') === sectionId) {
-                                dot.classList.add('active');
-                            } else {
-                                dot.classList.remove('active');
-                            }
-                        });
-                        
-                        // Animate section when it becomes visible
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, observerOptions);
+            localStorage.setItem('gameProgress', JSON.stringify(gameProgress));
             
-            // Observe all sections
-            sections.forEach(section => {
-                // Set initial state
-                section.style.opacity = '0.7';
-                section.style.transform = 'translateY(20px)';
-                section.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            // Mostrar confirmación
+            alert("¡Progreso guardado correctamente!");
+        }
+        
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('gameProgress');
+            if (savedProgress) {
+                const progress = JSON.parse(savedProgress);
                 
-                // Start observing
-                sectionObserver.observe(section);
-            });
-            
-            // Add window event listeners
-            window.addEventListener('resize', handleResize);
-            
-            // Accessibility improvements
-            highlightElements.forEach(el => {
-                el.setAttribute('role', 'button');
-                el.setAttribute('aria-label', `Pronounce ${el.getAttribute('data-text')}`);
-                el.setAttribute('tabindex', '0');
+                playerName = progress.playerName;
+                playerCharacter = progress.playerCharacter;
+                currentLevel = progress.currentLevel;
+                score = progress.score;
+                remainingLifelines = progress.remainingLifelines;
                 
-                // Support keyboard interaction
-                el.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        const text = this.getAttribute('data-text');
-                        speakText(text);
-                    }
-                });
-            });
-            
-            // Preload any necessary resources
-            function preloadResources() {
-                // This would preload audio files, icons, or other resources
-                // For this demo, we'll just simulate preloading
-                console.log('Resources preloaded');
-            }
-            
-            // Handle any errors that might occur
-            function handleError(error) {
-                console.error('An error occurred:', error);
-                // Display user-friendly error message if needed
-            }
-            
-            // Initialize the page
-            function initialize() {
-                try {
-                    preloadResources();
-                    updateActiveNavDot();
-                    
-                    // Check if speech synthesis is available
-                    if (!('speechSynthesis' in window)) {
-                        console.warn('Speech synthesis not supported');
-                        // Disable speech features or show alternative
-                    }
-                    
-                    // Add initial animation to sections
-                    sections.forEach((section, index) => {
-                        setTimeout(() => {
-                            section.style.opacity = '1';
-                            section.style.transform = 'translateY(0)';
-                        }, 100 * index);
-                    });
-                    
-                    console.log('Interactive adverbs page initialized');
-                } catch (error) {
-                    handleError(error);
+                // Actualizar interfaz
+                document.getElementById('points-display').textContent = score;
+                
+                // Actualizar vidas
+                for (let i = 3; i > remainingLifelines; i--) {
+                    document.getElementById(`lifeline-${i}`).classList.add('used');
                 }
+                
+                // Cargar nivel y pregunta
+                loadLevel(currentLevel);
+                
+                // Ocultar pantalla de inicio y mostrar área de juego
+                document.getElementById('start-screen').style.display = 'none';
+                document.getElementById('game-area').style.display = 'block';
+                
+                return true;
             }
             
-            // Run initialization
-            initialize();
+            return false;
+        }
+        
+        // Función para compartir resultados
+        function shareResults() {
+            const text = `¡He obtenido ${score} puntos en "La Aventura del Saber"! ¡Intenta superarme!`;
+            
+            // Intentar usar la API de compartir si está disponible
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Mi puntuación en La Aventura del Saber',
+                    text: text,
+                    url: window.location.href
+                }).catch(err => {
+                    console.error('Error al compartir:', err);
+                });
+            } else {
+                // Fallback - copiar al portapapeles
+                const dummy = document.createElement('textarea');
+                document.body.appendChild(dummy);
+                dummy.value = text;
+                dummy.select();
+                document.execCommand('copy');
+                document.body.removeChild(dummy);
+                
+                alert('¡Texto copiado al portapapeles! Compártelo en tus redes sociales.');
+            }
+        }
+        
+        // Inicialización y carga de datos guardados
+        window.onload = function() {
+            // Intentar cargar progreso guardado
+            if (!loadProgress()) {
+                // Si no hay progreso guardado, mostrar pantalla de inicio
+                document.getElementById('start-screen').style.display = 'block';
+            }
+            
+            // Cargar tema guardado si existe
+            const savedTheme = localStorage.getItem('gameTheme');
+            if (savedTheme) {
+                changeTheme(savedTheme);
+            }
+            
+            // Cargar dificultad guardada si existe
+            const savedDifficulty = localStorage.getItem('gameDifficulty');
+            if (savedDifficulty) {
+                changeGameDifficulty(savedDifficulty);
+            }
+            
+            // Inicializar los botones de sonido y música
+            document.getElementById('music-button').innerHTML = musicOn ? 
+                '<span>🔊</span> Música' : '<span>🔇</span> Música';
+            document.getElementById('sound-button').innerHTML = soundOn ? 
+                '<span>🔊</span> Sonidos' : '<span>🔇</span> Sonidos';
+        };
+        
+        // Funciones para accesibilidad
+        function increaseTextSize() {
+            const gameContainer = document.getElementById('game-container');
+            const currentSize = parseFloat(getComputedStyle(gameContainer).fontSize);
+            gameContainer.style.fontSize = (currentSize * 1.2) + 'px';
+        }
+        
+        function decreaseTextSize() {
+            const gameContainer = document.getElementById('game-container');
+            const currentSize = parseFloat(getComputedStyle(gameContainer).fontSize);
+            gameContainer.style.fontSize = (currentSize / 1.2) + 'px';
+        }
+        
+        function toggleHighContrast() {
+            const gameContainer = document.getElementById('game-container');
+            gameContainer.classList.toggle('high-contrast');
+        }
+        
+        // Añadir funcionalidad de escape para cerrar modales
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                // Cerrar modales si están abiertos
+                closeInstructions();
+                closeSettings();
+            }
         });
     </script>
-</body>
-</html>
+    </body>
+    </html>
